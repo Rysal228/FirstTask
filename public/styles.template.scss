@@ -1,0 +1,18 @@
+@use '@angular/material' as mat;
+@import '@angular/material/theming';
+@include mat-core();
+
+// Theaming
+
+$primary: mat-palette(${STYLE_COLOR}, 500);
+$accent: mat-palette($mat-gray, 300);
+$warn: mat-palette($mat-red, 500);
+
+$theme: mat-light-theme((color: (primary: $primary,
+                accent: $accent,
+                warn: $warn,
+            ),
+            topography: mat.define-typography-config(),
+            density: 0));
+
+@include angular-material-theme($theme);

@@ -1,0 +1,82 @@
+ @use '@angular/material' as mat;
+//@import '../../../public/styles.scss';
+
+
+.nav-container {
+ display: flex;
+ justify-content: space-between;
+ background-color: rgb(218, 37, 37);
+ width: 100%;
+ height: 75px;
+}
+
+.button-exit
+{   margin: 15px;
+    margin-right: 25px;
+    display: inline-block;
+    margin-top: 16px;
+}
+
+.data-user {
+    margin: 15px;
+    margin-top: 25px;
+}
+
+.button-settings {
+    margin: 15px
+}
+
+.example-container mat-form-field + mat-form-field {
+    margin-left: 8px;
+  }
+  
+  .example-right-align {
+    text-align: right;
+  }
+  
+  input.example-right-align::-webkit-outer-spin-button,
+  input.example-right-align::-webkit-inner-spin-button {
+    display: none;
+  }
+  
+  input.example-right-align {
+    -moz-appearance: textfield;
+  }
+
+  .rightNav {
+    display: flex;
+  }
+
+  .example-tooltip-uppercase {
+    text-transform: uppercase;
+  }
+
+
+  .custom-dialog-content {
+      border-radius: 0px;
+      width: 550px; 
+      background: rgba(0, 0, 0, .32);
+  }
+
+  // new header
+
+.header {
+    display: flex;
+    align-items: center;
+    padding-left: 50px;
+    justify-content: space-between;
+}
+
+.logo {
+    color: #fff;
+}
+
+.profile {
+    opacity: .6;
+}
+
+// $primary: mat-palette($mat-indigo, 500);
+
+// .Hi{
+//   color: mat-color($primary,default);
+// }

@@ -7,3 +7,27 @@
   .example-full-width {
     width: 100%;
   }
+
+  form {
+    border: 1px solid #f5f5f5;
+    border-radius: 10px;
+    background-color: #f5f5f5;
+    margin-bottom: 20px;
+    padding: 5px;
+    position: absolute;
+    width: 350px;
+    height: 350px;
+    top: 40%;
+    left: 50%;
+    margin-left: -200px;
+    margin-top: -200px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 30px;
+}
+
+button {
+    margin-top: 10px;
+}

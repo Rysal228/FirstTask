@@ -2,7 +2,7 @@
   "users": [
       {
           "id": 1,
-          "email": "test1@example.com",
+          "login": "Sergey",
           "role": "Admin",
           "password": "1",
           "modules": [
@@ -14,7 +14,7 @@
       },
       {
           "id": 2,
-          "email": "test2@example.com",
+          "login": "Lev",
           "role": "User",
           "password": "1",
           "modules": [

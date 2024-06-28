@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { FormControl, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -9,7 +9,9 @@ import { Router } from '@angular/router';
 import { UserServiceService } from '../main-page/user-service.service';
 import { AuthService } from '../auth.service';
 import { User } from '../iuser';
-
+import { FormBuilder } from '@angular/forms';
+import { StorageService } from '../storage.service';
+import { HttpErrorResponse } from '@angular/common/http';
 @Component({
   selector: 'app-auth',
   standalone: true,
@@ -17,46 +19,87 @@ import { User } from '../iuser';
   templateUrl: 'auth.component.html',
   styleUrl: './auth.component.scss'
 })
-export class AuthComponent {
+export class AuthComponent implements OnInit {
 
-  emailFormControl = new FormControl('', [Validators.required, Validators.email]);
-  //users : any = null;
-  constructor(private authService: AuthService, private router: Router, private UserServiceService: UserServiceService) {}
-  
-  onSubmit() {
-    if (this.emailFormControl.valid) {
-      const email = this.emailFormControl.value;
-      if (email !== null) {
-        this.authService.checkEmail(email).subscribe(
-          (users: User[]) => {
-              const user = users.find(u => u.email === email);
-              if (user) {
-              this.authService.getUserModules(user.id).subscribe(
-                (fullUser: User) => { 
-                  console.log(fullUser);
-                  this.UserServiceService.setUser(fullUser); 
-                  this.router.navigate(['/']);
-                 
-                   //this.UserServiceService.setUser(user);
-                },
-              );
-            } else {
-              console.log('Email not found');
-            }
-          },
-          (error: any) => {
-            console.error('Error checking email:', error);
-          }
-        );
-      } else {
-        console.error('Email value is null');
-      }
+  authForm = this.fb.group({
+    grant_type: ['password'],
+    login: ['', Validators.required],
+    password: ['', Validators.required],
+  })
+
+  isLoggedIn = false;
+  isLoginFailed = false;
+  hide = true;
+  errorMessage = '';
+  // login = new FormControl('', [Validators.required]);
+  // password = new FormControl('', Validators.required);
+  constructor(
+    private authService: AuthService, 
+    private router: Router, 
+    private UserServiceService: UserServiceService,
+    private fb: FormBuilder,
+    private storageService: StorageService) {}
+
+  colorValue() {
+    return 'red'
+  }
+
+  ngOnInit(): void {
+    if (this.storageService.isLoggedIn()) {
+      this.isLoggedIn = true;
+      //должен обновлять токен, авторизованному чуваку, если тот попадает на страницу auth
+      this.authService.refreshToken();
+      //и возвращать на страницу для работы
+      this.router.navigate(['home'])
     }
   }
 
-// onSubmit() {
-//   if (this.emailFormControl.valid) {
-//     this.router.navigate(['/MainPage']);
-//   }
-// }
+  onSubmit(): void {
+    this.authService.login(this.authForm.value).subscribe({
+      next: data => {
+        this.storageService.saveToken(data);
+
+        this.isLoggedIn = true;
+        this.isLoginFailed = false;
+        this.router.navigate(['home']);
+      },
+      error: err => {
+        if (err instanceof HttpErrorResponse && err.status === 401) {
+          this.isLoginFailed = true;
+        }
+      }
+    });
+  }
+  // onSubmit() {
+  //   if (this.authForm.valid) {
+  //     const login = this.login.value;
+  //     const password = this.password.value;
+  //     if ((login !== null) && (password!== null)) {
+  //       this.authService.checkLogin(login).subscribe(
+  //         (users: User[]) => {
+  //             const user = users.find(u => u.login === login);
+  //             if (user) {
+  //             this.authService.getUserModules(user.id).subscribe(
+  //               (fullUser: User) => { 
+  //                 console.log(fullUser);
+  //                 this.UserServiceService.setUser(fullUser); 
+  //                 this.router.navigate(['/']);
+                 
+  //                  //this.UserServiceService.setUser(user);
+  //               },
+  //             );
+  //           } else {
+  //             console.log('Login not found');
+  //           }
+  //         },
+  //         (error: any) => {
+  //           console.error('Error checking login:', error);
+  //         }
+  //       );
+  //     } else {
+  //       console.error('Login value is null');
+  //     }
+  //   }
+  // }
+
 }

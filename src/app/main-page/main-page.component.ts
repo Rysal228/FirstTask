@@ -92,7 +92,12 @@ export class MainPageComponent implements OnInit {
 })
 export class DialogOverviewExampleDialog {
 
-  constructor(private dialogRef: MatDialogRef<DialogOverviewExampleDialog>) {}
+  constructor(public dialogRef: MatDialogRef<DialogOverviewExampleDialog>) {}
+
+  ngOnInit() {
+    this.dialogRef.updateSize('400px', 'auto');
+    this.dialogRef.addPanelClass("chemgePasWindow");
+  }
 
   onNoClick(): void {
     this.dialogRef.close();

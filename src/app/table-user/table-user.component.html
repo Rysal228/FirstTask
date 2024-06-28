@@ -40,4 +40,14 @@
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
     <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
   </table>
-  
+  <!--
+  <div>
+    Sticky Headers:
+    <mat-button-toggle-group multiple [value]="['header-1']"
+                             #stickyHeaders="matButtonToggleGroup"
+                             class="example-sticky-toggle-group">
+      <mat-button-toggle value="header-1"> Row 1 </mat-button-toggle>
+      <mat-button-toggle value="header-2"> Row 2 </mat-button-toggle>
+    </mat-button-toggle-group>
+  </div>
+  -->

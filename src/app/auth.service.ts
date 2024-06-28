@@ -6,10 +6,10 @@ import { User } from './iuser';
 @Injectable({
   providedIn: 'root'
 })
+
 export class AuthService  {
-
+  Hi : string = 'hi';
   private Url = 'http://localhost:3000/users'; 
-
   constructor(private http: HttpClient) {}
 
   checkEmail(email: string): Observable<User[]> {

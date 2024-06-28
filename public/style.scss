@@ -1,0 +1,38 @@
+@use '@angular/material' as mat;
+
+@include mat.core();
+
+$primary: mat.m2-define-palette(mat.$m2-indigo-palette, 500);
+$accent: mat.m2-define-palette(mat.$m2-gray-palette, 300);
+$warn: mat.m2-define-palette(mat.$m2-red-palette, 500);
+
+$theme: mat.m2-define-light-theme((
+  color: (
+    primary: $primary,
+    accent: $accent,
+    warn: $warn,
+  ),
+));
+
+@include mat.all-component-themes($theme);
+
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+.background-primary{
+  background: mat.m2-get-color-from-palette($primary, 'default');
+}
+.color-primary{
+  color: mat.m2-get-color-from-palette($primary, 'default');
+}
+
+*{
+  color: black;
+}
+
+::ng-deep .custom-modalbox .mat-dialog-container {
+  border-radius: 150px;
+  width: 750px; 
+  background-color: rgba(0, 0, 0, .32);
+}

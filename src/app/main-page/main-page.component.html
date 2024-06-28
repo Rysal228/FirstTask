@@ -1,4 +1,4 @@
-<div class="nav-container"> 
+<!-- <div class="nav-container"> 
 
   <div>
     <div class = "name-project"> Название модуля </div>
@@ -18,10 +18,10 @@
     </mat-menu>
     </div>
   </div>
-  <app-table-user></app-table-user>
+  <app-table-user></app-table-user> -->
 
-  <!-- <header class="header background-primary">
-    <h1 class="logo">Импорт данных из 1С Арсенал-24</h1>
+  <header class="header background-primary">
+    <h1 class="logo">Название проекта</h1>
 
     <mat-tab-group backgroundColor="primary"
                    color="accent"
@@ -31,14 +31,32 @@
             <ng-template mat-tab-label>
                 <span style="font-size: 14px;">Добро пожаловать, {{this.userName}}!</span>
                 <div>
-                    <button matSuffix
+                    <!-- <button matSuffix
                             mat-icon-button
                             matTooltip="Выйти из профиля"
                             >
                         <mat-icon>exit_to_app</mat-icon>
-                    </button>
+                    </button> -->
+                  <button mat-icon-button [matMenuTriggerFor]="menu" 
+                  type="button" class="button-settings" (click)="onSettings()"> <mat-icon>settings</mat-icon> 
+                </button>
+                  <button mat-icon-button 
+                  type="button" matTooltip="Выйти из профиля" matTooltipClass="example-tooltip-uppercase" 
+                  aria-label="Button that shows a red tooltip" class="button-exit" (click)="onExit()"> <mat-icon>exit_to_app</mat-icon> 
+                </button>
+                <mat-menu #menu="matMenu">
+                  <button mat-menu-item (click)="openDialog()">
+                    <mat-icon>dialpad</mat-icon>
+                    <span> Изменить пароль</span>
+                  </button>
+                  <ng-container *ngIf="user && user.role === 'Admin'">
+                    Hi
+                  </ng-container>
+                </mat-menu>
                 </div>
             </ng-template>
         </mat-tab>
     </mat-tab-group>
-</header> -->
+</header>
+
+<app-table-user></app-table-user>

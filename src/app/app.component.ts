@@ -15,5 +15,5 @@ import { CommonModule } from '@angular/common';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  title = 'FirstTask';
+  title = 'Название проекта';
 }

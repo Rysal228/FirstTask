@@ -1,5 +1,6 @@
- @use '@angular/material' as mat;
-//@import '../../../public/styles.scss';
+@use '@angular/material' as mat;
+@import '../../../public/style.scss';
+
 
 
 .nav-container {
@@ -30,53 +31,52 @@
     margin-left: 8px;
   }
   
-  .example-right-align {
-    text-align: right;
-  }
+.example-right-align {
+   text-align: right;
+}
   
-  input.example-right-align::-webkit-outer-spin-button,
-  input.example-right-align::-webkit-inner-spin-button {
-    display: none;
-  }
+input.example-right-align::-webkit-outer-spin-button,
+input.example-right-align::-webkit-inner-spin-button {
+  display: none;
+}
   
-  input.example-right-align {
-    -moz-appearance: textfield;
+input.example-right-align {
+  -moz-appearance: textfield;
+}
+
+.rightNav {
+  display: flex;
+}
+
+.example-tooltip-uppercase {
+  text-transform: uppercase;
+}
+
+
+
+::ng-deep .custom-modalbox {
+  mat-dialog-container {
+    border-radius: 150px;
+    width: 750px; 
+    background-color: rgba(0, 0, 0, .32);
   }
-
-  .rightNav {
-    display: flex;
-  }
-
-  .example-tooltip-uppercase {
-    text-transform: uppercase;
-  }
-
-
-  .custom-dialog-content {
-      border-radius: 0px;
-      width: 550px; 
-      background: rgba(0, 0, 0, .32);
-  }
-
+}
   // new header
 
-.header {
+  .header {
     display: flex;
     align-items: center;
     padding-left: 50px;
     justify-content: space-between;
-}
-
-.logo {
+  }
+  
+  .logo {
     color: #fff;
-}
-
-.profile {
+    margin-top: 4px;
+    margin-bottom: 4px;
+  }
+  
+  .profile {
     opacity: .6;
-}
-
-// $primary: mat-palette($mat-indigo, 500);
-
-// .Hi{
-//   color: mat-color($primary,default);
-// }
+  }
+  

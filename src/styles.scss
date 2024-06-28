@@ -25,3 +25,8 @@
   
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+::ng-deep .custom-modalbox .mat-dialog-container {
+    border-radius: 150px;
+    width: 750px; 
+    background-color: rgba(0, 0, 0, .32);
+  }

@@ -44,7 +44,11 @@ export class MainPageComponent implements OnInit {
   user: User | null = null; 
   userName = "Manchik";
 
-  constructor(private userService: UserServiceService, private route: Router, private _bottomSheet: MatBottomSheet) {} 
+  constructor(
+    private userService: UserServiceService, 
+    private route: Router, 
+    private _bottomSheet: MatBottomSheet, 
+    private dialog: MatDialog) {} 
 
   
   ngOnInit() {
@@ -62,15 +66,10 @@ export class MainPageComponent implements OnInit {
     
   }
 
-  readonly animal = signal('');
-  readonly name = model('');
-  readonly dialog = inject(MatDialog);
-
   openDialog(): void {
-    const dialogRef = this.dialog.open(DialogOverviewExampleDialog, {
-      data: {name: this.name(), animal: this.animal()},
+    this.dialog.open(DialogOverviewExampleDialog,{
+      panelClass: 'custom-modalbox'
     });
-
   }
 
 }
@@ -92,11 +91,9 @@ export class MainPageComponent implements OnInit {
   ],
 })
 export class DialogOverviewExampleDialog {
-  readonly dialogRef = inject(MatDialogRef<DialogOverviewExampleDialog>);
-  readonly data = inject<DialogData>(MAT_DIALOG_DATA);
-  readonly animal = model(this.data.animal);
 
-  
+  constructor(private dialogRef: MatDialogRef<DialogOverviewExampleDialog>) {}
+
   onNoClick(): void {
     this.dialogRef.close();
   }

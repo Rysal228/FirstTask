@@ -9,6 +9,10 @@
               {
                   "name": "Home",
                   "rights": ["C", "R", "U", "D", "L"]
+              },
+              {
+                "name": "School",
+                "rights":["C"]
               }
           ]
       },

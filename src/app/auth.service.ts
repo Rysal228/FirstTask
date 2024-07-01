@@ -9,7 +9,8 @@ import { StorageService } from './storage.service';
 })
 
 export class AuthService  {
-  private Url = 'http://localhost:3000/users'; 
+  private Url = 'http://10.100.3.140:8080'; 
+
   constructor(
     private http: HttpClient,
     private storageService: StorageService) {}
@@ -27,14 +28,21 @@ export class AuthService  {
 
 
   login(body: any): Observable<any> {
-    const bodyRequest = new HttpParams()
-       // .set('grant_type', body.grant_type)
-        .set('username', body.login)
-        .set('password', body.password)
-       // .set('scope', body.scope)
+    const bodyRequest = {
+      login: body.login,
+      pass: body.password
+    }
+    // const bodyRequest = new HttpParams()
+    //    // .set('grant_type', body.grant_type)
+    //     .set('username', body.login)
+    //     .set('password', body.password)
+    //    // .set('scope', body.scope)
     window.localStorage.setItem('zup-username', body.login);
+    console.log(bodyRequest);
+    console.log( this.http.post<any>(
+      this.Url, JSON.stringify(bodyRequest)));
     return this.http.post<any>(
-        this.Url + 'token', bodyRequest
+        this.Url, JSON.stringify(bodyRequest)
     )
 }
 
@@ -43,7 +51,7 @@ export class AuthService  {
         .set('grant_type', 'refresh_token')
         .set('refresh_token', this.storageService.getRefreshToken())
 
-    return this.http.post<any>(this.Url + 'token', body).pipe(tap(responseData => {
+    return this.http.post<any>(this.Url, body).pipe(tap(responseData => {
         this.storageService.saveToken(responseData)
     }), delay(200));
 }

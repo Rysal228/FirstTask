@@ -22,7 +22,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 export class AuthComponent implements OnInit {
 
   authForm = this.fb.group({
-    grant_type: ['password'],
+    //grant_type: ['password'],
     login: ['', Validators.required],
     password: ['', Validators.required],
   })

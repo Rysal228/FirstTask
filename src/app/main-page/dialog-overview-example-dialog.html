@@ -6,6 +6,7 @@
 -->
 <h2 mat-dialog-title>Измененение пароля</h2>
 <mat-dialog-actions>
+  <form (ngSubmit)="onSubmitChangePassword()">
   <div class="example-container">
     <mat-form-field class="input-container">
       <mat-label>Введите свой действительный пароль</mat-label>
@@ -46,6 +47,7 @@
       </button>
     </mat-form-field>
   </div>
+  </form>
   <div class="actions-container">
     <div class="button-container">
       <button mat-button cdkFocusInitial>Ok</button>

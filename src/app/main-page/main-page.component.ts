@@ -114,7 +114,11 @@ export class DialogOverviewExampleDialog {
 
   changePassword = this.fb.group({
     password:['',Validators.required],
-    newPassword:['']
+    newPassword:['', Validators.required]
 
   })
+
+  onSubmitChangePassword(){
+
+  }
 }

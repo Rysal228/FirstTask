@@ -8,7 +8,7 @@ import {
   MatBottomSheet,
   MatBottomSheetModule,
 } from '@angular/material/bottom-sheet';
-import {FormsModule} from '@angular/forms';
+import {FormGroup, FormsModule, Validators} from '@angular/forms';
 import {
   MAT_DIALOG_DATA,
   MatDialog,
@@ -26,6 +26,7 @@ import { TableUserComponent } from '../table-user/table-user.component';
 import {MatTooltipModule} from '@angular/material/tooltip';
 import {MatTabsModule} from '@angular/material/tabs';
 import { User } from '../iuser';
+import { FormBuilder } from '@angular/forms';
 
 export interface DialogData {
   animal: string;
@@ -92,7 +93,7 @@ export class MainPageComponent implements OnInit {
 })
 export class DialogOverviewExampleDialog {
 
-  constructor(public dialogRef: MatDialogRef<DialogOverviewExampleDialog>) {}
+  constructor(public dialogRef: MatDialogRef<DialogOverviewExampleDialog>, public fb: FormBuilder) {}
 
   ngOnInit() {
     this.dialogRef.updateSize('400px', 'auto');
@@ -110,4 +111,10 @@ export class DialogOverviewExampleDialog {
   togglePasswordVisibility(property: 'hideCurrentPassword' | 'hideNewPassword' | 'hideNewRepeatPassword') {
     this[property] = !this[property];
   }
+
+  changePassword = this.fb.group({
+    password:['',Validators.required],
+    newPassword:['']
+
+  })
 }

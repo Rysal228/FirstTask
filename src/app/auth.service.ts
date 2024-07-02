@@ -20,8 +20,12 @@ export class AuthService  {
   
   getUserModules(userId: number): Observable<User> {
     return this.http.get<User>(`${this.Url}/${userId}`);
-    //return this.http.get<User>(`${this.Url}/${userId}/modules`);
   }
 
+  changePassword(currentPassword: string, newPassword : string): Observable<any>
+  {
+    //const token = localStorage.getItem('authToken');
+    return this.http.post<any>(`${this.Url}`,{currentPassword,newPassword})
+  }
 
 }

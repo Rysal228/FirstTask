@@ -8,7 +8,7 @@ import {
   MatBottomSheet,
   MatBottomSheetModule,
 } from '@angular/material/bottom-sheet';
-import {FormGroup, FormsModule, Validators} from '@angular/forms';
+import {FormGroup, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
 import {
   MAT_DIALOG_DATA,
   MatDialog,
@@ -27,6 +27,7 @@ import {MatTooltipModule} from '@angular/material/tooltip';
 import {MatTabsModule} from '@angular/material/tabs';
 import { User } from '../iuser';
 import { FormBuilder } from '@angular/forms';
+import { AuthService } from '../auth.service';
 
 export interface DialogData {
   animal: string;
@@ -89,11 +90,15 @@ export class MainPageComponent implements OnInit {
     MatDialogActions,
     MatDialogClose,
     MatIconModule,
+    ReactiveFormsModule
   ],
 })
 export class DialogOverviewExampleDialog {
 
-  constructor(public dialogRef: MatDialogRef<DialogOverviewExampleDialog>, public fb: FormBuilder) {}
+  constructor(
+    public dialogRef: MatDialogRef<DialogOverviewExampleDialog>, 
+    public fb: FormBuilder,
+    public authService: AuthService) {}
 
   ngOnInit() {
     this.dialogRef.updateSize('400px', 'auto');
@@ -112,13 +117,34 @@ export class DialogOverviewExampleDialog {
     this[property] = !this[property];
   }
 
-  changePassword = this.fb.group({
-    password:['',Validators.required],
-    newPassword:['', Validators.required]
 
-  })
+  changePasswordForm = this.fb.group({
+    currentPassword: ['', Validators.required],
+    newPassword: ['', Validators.required],
+    repeatNewPassword: ['', Validators.required]
+  });
 
   onSubmitChangePassword(){
+    if (this.changePasswordForm.valid) {
+      const currentPassword = this.changePasswordForm.get('currentPassword').value;
+      const newPassword = this.changePasswordForm.get('newPassword').value;
+      const newRepeatPassword = this.changePasswordForm.get('newRepeatPassword').value;
 
+      if ((currentPassword !== null && newPassword !== null && newRepeatPassword !== null) &&( newPassword === newRepeatPassword)) {
+        this.authService.changePassword(currentPassword, newPassword).subscribe(
+          response => {
+            console.log('Пароль успешно изменен', response);
+            this.dialogRef.close();
+          },
+          error => {
+            console.log('Ошибка при изменении пароля', error);
+          }
+        );
+      } else {
+        console.log('Новый пароль и его повторение не совпадают.');
+      }
+    } else {
+      console.log('Форма не валидна.');
+    }
   }
 }

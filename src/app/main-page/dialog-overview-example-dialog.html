@@ -6,11 +6,11 @@
 -->
 <h2 mat-dialog-title>Измененение пароля</h2>
 <mat-dialog-actions>
-  <form (ngSubmit)="onSubmitChangePassword()">
+  <form [formGroup]="changePasswordForm" (ngSubmit)="onSubmitChangePassword()" >
   <div class="example-container">
     <mat-form-field class="input-container">
       <mat-label>Введите свой действительный пароль</mat-label>
-      <input matInput [type]="hideCurrentPassword ? 'password' : 'text'" />
+      <input matInput formControlName="currentPassword" [type]="hideCurrentPassword ? 'password' : 'text'" />
       <button
         mat-icon-button
         matSuffix
@@ -23,7 +23,7 @@
     <br>
     <mat-form-field class="input-container">
       <mat-label>Введите новый пароль</mat-label>
-      <input matInput [type]="hideNewPassword  ? 'password' : 'text'" />
+      <input matInput formControlName="newPassword" [type]="hideNewPassword  ? 'password' : 'text'" />
       <button
         mat-icon-button
         matSuffix
@@ -36,7 +36,7 @@
     <br>
     <mat-form-field class="input-container">
       <mat-label>Повторите новый пароль</mat-label>
-      <input matInput [type]="hideNewRepeatPassword ? 'password' : 'text'" />
+      <input matInput formControlName="repeatNewPassword" [type]="hideNewRepeatPassword ? 'password' : 'text'" />
       <button
         mat-icon-button
         matSuffix
@@ -47,7 +47,6 @@
       </button>
     </mat-form-field>
   </div>
-  </form>
   <div class="actions-container">
     <div class="button-container">
       <button mat-button cdkFocusInitial>Ok</button>
@@ -56,4 +55,5 @@
       <button mat-button (click)="onNoClick()">Отмена</button>
     </div>
   </div>
+</form>
 </mat-dialog-actions>

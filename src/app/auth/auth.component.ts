@@ -53,7 +53,7 @@ export class AuthComponent implements OnInit {
       //должен обновлять токен, авторизованному чуваку, если тот попадает на страницу auth
       this.authService.refreshToken();
       //и возвращать на страницу для работы
-      this.router.navigate(['/'])
+      this.router.navigate(['/mainPage'])
     }
   }
 
@@ -64,7 +64,7 @@ export class AuthComponent implements OnInit {
 
         this.isLoggedIn = true;
         this.isLoginFailed = false;
-        this.router.navigate(['/']);
+        this.router.navigate(['/mainPage']);
       },
       error: err => {
         if (err instanceof HttpErrorResponse && err.status === 400) {

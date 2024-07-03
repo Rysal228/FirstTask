@@ -111,9 +111,9 @@ export class AuthService  {
       oldPassword: oldPasswordForm,
       newPassword: newPasswordForm
     };
-    console.log(body);
+    //console.log(body);
     const changePassword = 'changePassword'
-    console.log(`${this.Url}/${changePassword}`)
+    //console.log(`${this.Url}/${changePassword}`)
     return this.http.post<any>(`http://10.100.3.140:8001/changePassword`, body, { headers : new HttpHeaders({
       'Content-Type': 'application/json',
       'Authorization': `Bearer ${token}`
@@ -153,6 +153,7 @@ export class AuthService  {
   logout() {
     this.storageService.isLoggedOut();
     window.localStorage.removeItem('zup-username');
-    this.router.navigate(['/auth']);
+    this.router.navigate(['/']);
 }
+
 }

@@ -18,6 +18,7 @@ import { User } from '../iuser';
 import { AuthService } from '../auth.service';
 import { DialogChangePasswordComponent } from './dialog-change-password/dialog-change-password.component';
 import { DialogCreateUserComponent } from './dialog-create-user/dialog-create-user.component';
+import { StorageService } from '../storage.service';
 
 export interface DialogData {
   animal: string;
@@ -37,16 +38,16 @@ export class MainPageComponent implements OnInit {
   userName = localStorage.getItem('zup-username');
 
   constructor(
-    private userService: UserServiceService, 
-    private route: Router, 
-    private _bottomSheet: MatBottomSheet, 
+    private router: Router, 
     private dialog: MatDialog,
-    private authService: AuthService) {} 
+    private authService: AuthService,
+    private storageService: StorageService) {} 
 
-  
+// Чтобы неавт. пользователь не смог зайти на главную страницу  
   ngOnInit() {
-    this.user = this.userService.getUser(); 
-    //console.log(this.user.role);
+    if (!localStorage.getItem('zup-token')) {
+      this.router.navigate([''])
+    }
   }
 
   onExit(){

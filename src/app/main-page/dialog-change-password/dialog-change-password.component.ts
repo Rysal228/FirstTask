@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import {MatIconModule} from '@angular/material/icon';
-import {MatDividerModule} from '@angular/material/divider';
 import {FormsModule, FormBuilder, ReactiveFormsModule} from '@angular/forms';
 import {
   MatDialogActions,
@@ -15,10 +14,6 @@ import {MatButtonModule} from '@angular/material/button';
 import { AuthService } from '../../auth.service';
 import { Validators } from '@angular/forms';
 
-export interface DialogData {
-  animal: string;
-  name: string;
-}
 
 @Component({
   selector: 'dialog-change-password',
@@ -43,7 +38,8 @@ export class DialogChangePasswordComponent {
   constructor(
     private dialogRef: MatDialogRef<DialogChangePasswordComponent>,
     private authService: AuthService,
-    private fb: FormBuilder) {}
+    private fb: FormBuilder
+  ) {}
 
   ngOnInit() {
     this.dialogRef.updateSize('400px', 'auto');

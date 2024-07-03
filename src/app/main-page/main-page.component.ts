@@ -21,8 +21,8 @@ import { DialogCreateUserComponent } from './dialog-create-user/dialog-create-us
 import { StorageService } from '../storage.service';
 
 export interface DialogData {
-  animal: string;
-  name: string;
+  currentPassword: string;
+  newPassword: string;
 }
 
 @Component({

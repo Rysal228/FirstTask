@@ -20,8 +20,8 @@ import { DialogChangePasswordComponent } from './dialog-change-password/dialog-c
 import { DialogCreateUserComponent } from './dialog-create-user/dialog-create-user.component';
 
 export interface DialogData {
-  animal: string;
-  name: string;
+  currentPassword: string;
+  newPassword: string;
 }
 
 @Component({

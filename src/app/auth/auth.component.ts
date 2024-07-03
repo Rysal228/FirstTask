@@ -11,11 +11,12 @@ import { AuthService } from '../auth.service';
 import { User } from '../iuser';
 import { FormBuilder } from '@angular/forms';
 import { StorageService } from '../storage.service';
+import {MatButtonModule} from '@angular/material/button';
 import { HttpErrorResponse } from '@angular/common/http';
 @Component({
   selector: 'app-auth',
   standalone: true,
-  imports: [CommonModule, RouterOutlet, MatSlideToggleModule, FormsModule, MatFormFieldModule, MatInputModule, ReactiveFormsModule],
+  imports: [CommonModule, RouterOutlet, MatButtonModule, MatSlideToggleModule, FormsModule, MatFormFieldModule, MatInputModule, ReactiveFormsModule],
   templateUrl: 'auth.component.html',
   styleUrl: './auth.component.scss'
 })
@@ -26,6 +27,8 @@ export class AuthComponent implements OnInit {
     login: ['', Validators.required],
     password: ['', Validators.required],
   })
+
+  loggingInError: string = ''
 
   isLoggedIn = false;
   isLoginFailed = false;
@@ -50,7 +53,7 @@ export class AuthComponent implements OnInit {
       //должен обновлять токен, авторизованному чуваку, если тот попадает на страницу auth
       this.authService.refreshToken();
       //и возвращать на страницу для работы
-      this.router.navigate(['home'])
+      this.router.navigate(['/'])
     }
   }
 
@@ -61,13 +64,18 @@ export class AuthComponent implements OnInit {
 
         this.isLoggedIn = true;
         this.isLoginFailed = false;
-        this.router.navigate(['home']);
+        this.router.navigate(['/']);
       },
       error: err => {
-        if (err instanceof HttpErrorResponse && err.status === 401) {
+        if (err instanceof HttpErrorResponse && err.status === 400) {
+          //console.log('Error: ', err)
+          this.loggingInError = err.error;
+          //console.log('loggingInError', this.loggingInError);
           this.isLoginFailed = true;
+          // console.log(err)
         }
-      }
+      },
+
     });
   }
   // onSubmit() {

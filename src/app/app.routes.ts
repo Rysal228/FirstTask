@@ -4,8 +4,7 @@ import { AuthComponent } from './auth/auth.component';
 
 export const routes: Routes = [
     {
-        path: 'MainPage',
-        //component: AuthComponent
+        path: 'auth',
         component: AuthComponent
     },
     {

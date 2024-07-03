@@ -1,0 +1,43 @@
+<h2 mat-dialog-title>Добавление нового пользователя</h2>
+<mat-dialog-actions>
+  <div class="example-container">
+    <mat-form-field class="input-container">
+      <mat-label>Введите имя пользователя</mat-label>
+      <input matInput>
+    </mat-form-field>
+    <br>
+    <mat-form-field class="input-container">
+      <mat-label>Введите пароль</mat-label>
+      <input matInput [type]="hideNewPassword  ? 'password' : 'text'" />
+      <button
+        mat-icon-button
+        matSuffix
+        (click)="togglePasswordVisibility('hideNewPassword')"
+        [attr.aria-label]="'Hide password'"
+      >
+        <mat-icon>{{ hideNewPassword  ? 'visibility_off' : 'visibility' }}</mat-icon>
+      </button>
+    </mat-form-field>
+    <br>
+    <mat-form-field class="input-container">
+      <mat-label>Повторите пароль</mat-label>
+      <input matInput [type]="hideNewRepeatPassword ? 'password' : 'text'" />
+      <button
+        mat-icon-button
+        matSuffix
+        (click)="togglePasswordVisibility('hideNewRepeatPassword')"
+        [attr.aria-label]="'Hide password'"
+      >
+        <mat-icon>{{ hideNewRepeatPassword ? 'visibility_off' : 'visibility' }}</mat-icon>
+      </button>
+    </mat-form-field>
+  </div>
+  <div class="actions-container">
+    <div class="button-container">
+      <button mat-flat-button color="primary" cdkFocusInitial>Ok</button>
+    </div>
+    <div class="button-container">
+      <button mat-flat-button color="accent" (click)="onNoClick()">Отмена</button>
+    </div>
+  </div>
+</mat-dialog-actions>

@@ -31,12 +31,15 @@
             formControlName="password"
                    type='password'
                    name="password">
-            <!-- <mat-hint *ngIf="this.isLoginFailed===true"
-                      [ngStyle]="{color: this.colorValue()}">Неверный логин/пароль</mat-hint> -->
+             <mat-hint *ngIf="this.isLoginFailed===true"
+                      [ngStyle]="{color: this.colorValue()}">Неверный логин/пароль</mat-hint>
 
         </mat-form-field>
-        <button mat-raised-button
+        
+        <button
+        mat-button mat-raised-button
                 color="primary"
                 type="submit">Войти</button>
+        <!-- <div *ngIf="loggingInError"> Введённый логин или пароль неверный</div> -->
     </form>
 </div>

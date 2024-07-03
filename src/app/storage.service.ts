@@ -9,6 +9,7 @@ export class StorageService {
 
   public isLoggedIn(): boolean {
     const user = window.localStorage.getItem(USER_KEY);
+
     if (user) {
         return true;
     }
@@ -28,4 +29,9 @@ public saveToken(user: any): void {
   window.localStorage.setItem(USER_KEY, JSON.stringify(user));
 }
   constructor() { }
+
+public isLoggedOut() {
+  console.log(window.localStorage.getItem(USER_KEY));
+  window.localStorage.removeItem(USER_KEY);
+}
 }

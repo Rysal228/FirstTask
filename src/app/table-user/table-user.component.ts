@@ -5,18 +5,7 @@ import { UserServiceService } from '../main-page/user-service.service';
 import { Module } from '../iuser';
 
 
-// interface Module {
-//   name: string;
-//   rights: string[];
-  
-// }
 
-// export interface User {
-//   id: number;
-//   login: string;
-//   password: string;
-//   modules: Module[];
-// }
 @Component({
   selector: 'app-table-user',
   standalone: true,
@@ -25,7 +14,7 @@ import { Module } from '../iuser';
   styleUrl: './table-user.component.scss'
 })
 export class TableUserComponent {
-  displayedColumns: string[] = ['position', 'name', 'rights'];
+  displayedColumns: string[] = ['position', 'name', 'create', 'reading', 'update', 'delete', 'list'];
   dataSource: Module[] = [];
   constructor(private userServiceService: UserServiceService){}
   ngOnInit(): void {
@@ -34,9 +23,17 @@ export class TableUserComponent {
 
   loadUserModules(): void {
     const modules = this.userServiceService.getUserModules();
+    //console.log(modules); 
     this.dataSource = modules.map((module, index) => ({
       ...module,
-      position: index + 1
+      position: index + 1,
+      //name: module.name,
+      create: module.rights.create,
+      reading: module.rights.read,
+      update: module.rights.update,
+      delete: module.rights.delete,
+      list: module.rights.list
     }));
+    console.log(this.dataSource);
   }
 }

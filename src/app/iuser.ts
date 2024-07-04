@@ -7,7 +7,8 @@ export interface Module {
     id: number;
     login: string;
     role: string;
-    password: string;
-    modules: Module[];
+    pass: string;
+    name: string;
+    scope: Module[];
   }
   

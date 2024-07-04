@@ -57,7 +57,7 @@ export class AuthComponent implements OnInit {
     }
   }
 
-  onSubmit(): void {
+    onSubmit(): void {
     this.authService.login(this.authForm.value).subscribe({
       next: data => {
         this.storageService.saveToken(data);
@@ -78,36 +78,28 @@ export class AuthComponent implements OnInit {
 
     });
   }
-  // onSubmit() {
-  //   if (this.authForm.valid) {
-  //     const login = this.login.value;
-  //     const password = this.password.value;
-  //     if ((login !== null) && (password!== null)) {
-  //       this.authService.checkLogin(login).subscribe(
-  //         (users: User[]) => {
-  //             const user = users.find(u => u.login === login);
-  //             if (user) {
-  //             this.authService.getUserModules(user.id).subscribe(
-  //               (fullUser: User) => { 
-  //                 console.log(fullUser);
-  //                 this.UserServiceService.setUser(fullUser); 
-  //                 this.router.navigate(['/']);
-                 
-  //                  //this.UserServiceService.setUser(user);
-  //               },
-  //             );
-  //           } else {
-  //             console.log('Login not found');
-  //           }
-  //         },
-  //         (error: any) => {
-  //           console.error('Error checking login:', error);
-  //         }
-  //       );
-  //     } else {
-  //       console.error('Login value is null');
-  //     }
-  //   }
+
+  // onSubmit(): void {
+  //   this.authService.login(this.authForm.value).subscribe({
+  //     next: data => {
+  //       this.storageService.saveToken(data);
+
+  //       this.isLoggedIn = true;
+  //       this.isLoginFailed = false;
+  //       this.router.navigate(['/mainPage']);
+  //     },
+  //     error: err => {
+  //       if (err instanceof HttpErrorResponse && err.status === 400) {
+  //         //console.log('Error: ', err)
+  //         this.loggingInError = err.error;
+  //         //console.log('loggingInError', this.loggingInError);
+  //         this.isLoginFailed = true;
+  //         // console.log(err)
+  //       }
+  //     },
+
+  //   });
   // }
+
 
 }

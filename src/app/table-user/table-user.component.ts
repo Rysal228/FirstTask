@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {MatTableModule} from '@angular/material/table';
-import { UserServiceService } from '../main-page/user-service.service';
+import { AuthService } from '../auth.service';
 import { Module } from '../iuser';
-
+import { StorageService } from '../storage.service';
 
 
 @Component({
@@ -16,24 +16,31 @@ import { Module } from '../iuser';
 export class TableUserComponent {
   displayedColumns: string[] = ['position', 'name', 'create', 'reading', 'update', 'delete', 'list'];
   dataSource: Module[] = [];
-  constructor(private userServiceService: UserServiceService){}
+  constructor(
+    private authService: AuthService,
+    private storageService: StorageService){}
   ngOnInit(): void {
     this.loadUserModules();
   }
 
   loadUserModules(): void {
-    const modules = this.userServiceService.getUserModules();
-    //console.log(modules); 
-    this.dataSource = modules.map((module, index) => ({
-      ...module,
-      position: index + 1,
-      //name: module.name,
-      create: module.rights.create,
-      reading: module.rights.read,
-      update: module.rights.update,
-      delete: module.rights.delete,
-      list: module.rights.list
-    }));
-    console.log(this.dataSource);
+
+    this.authService.getUserModules().subscribe({
+      next: user => {
+        console.log(user);
+        this.dataSource = user.scope.map((module, index) => ({
+          ...module,
+          position: index + 1,
+          create: module.rights.includes('create'),
+          reading: module.rights.includes('read'),
+          update: module.rights.includes('update'),
+          delete: module.rights.includes('delete'),
+          list: module.rights.includes('list')
+        }));
+      },
+      error: err => {
+        console.error('Ошибка при загрузке модулей:', err);
+      }
+    });
   }
 }

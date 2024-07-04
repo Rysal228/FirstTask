@@ -83,6 +83,8 @@ import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable, delay, tap } from 'rxjs';
 import { StorageService } from './storage.service';
 import { Router } from '@angular/router';
+import { User } from './iuser';
+import { switchMap } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -96,17 +98,9 @@ export class AuthService  {
     private http: HttpClient,
     private storageService: StorageService,
     private router: Router) {}
-  
-  // getUserModules(userId: number): Observable<User> {
-  //   return this.http.get<User>(`${this.Url}/${userId}`);
-  //   //return this.http.get<User>(`${this.Url}/${userId}/modules`);
-  // }
-
- 
-  
-
+  private token = JSON.parse(localStorage.getItem('zup-token') || '{}');
   changePassword(oldPasswordForm: string, newPasswordForm: string): Observable<any> {
-    const token = localStorage.getItem('zup-token');
+    //const token = localStorage.getItem('zup-token');
     const body = {
       oldPassword: oldPasswordForm,
       newPassword: newPasswordForm
@@ -114,9 +108,9 @@ export class AuthService  {
     //console.log(body);
     const changePassword = 'changePassword'
     //console.log(`${this.Url}/${changePassword}`)
-    return this.http.post<any>(`http://10.100.3.140:8001/changePassword`, body, { headers : new HttpHeaders({
+    return this.http.put<any>(`http://10.100.3.140:8080/changePassword`, body, { headers : new HttpHeaders({
       'Content-Type': 'application/json',
-      'Authorization': `Bearer ${token}`
+      'Authorization': `Bearer ${this.token.token}`
     })
     });
   }
@@ -133,11 +127,9 @@ export class AuthService  {
     //     .set('password', body.password)
     //    // .set('scope', body.scope)
     window.localStorage.setItem('zup-username', body.login);
-    //console.log(bodyRequest);
-    //console.log( this.http.post<any>(this.Url, JSON.stringify(bodyRequest)));
     return this.http.post<any>(
         `${this.Url}/${this.signIn}`, JSON.stringify(bodyRequest)
-    )
+    ).pipe(switchMap(() => this.getUserModules()))
 }
 
   refreshToken(): Observable<any> {
@@ -155,5 +147,12 @@ export class AuthService  {
     window.localStorage.removeItem('zup-username');
     this.router.navigate(['/']);
 }
-
+  getUserModules(): Observable<User> {
+    return this.http.get<User>(`http://10.100.3.140:8080/user`,{
+      headers : new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${this.token.token}`
+      })
+    })
+  }
 }

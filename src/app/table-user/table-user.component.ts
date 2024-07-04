@@ -16,6 +16,7 @@ import { StorageService } from '../storage.service';
 export class TableUserComponent {
   displayedColumns: string[] = ['position', 'name', 'create', 'reading', 'update', 'delete', 'list'];
   dataSource: Module[] = [];
+  
   constructor(
     private authService: AuthService,
     private storageService: StorageService){}
@@ -27,15 +28,16 @@ export class TableUserComponent {
 
     this.authService.getUserModules().subscribe({
       next: user => {
-        console.log(user);
+        console.log(user.scope);
+
         this.dataSource = user.scope.map((module, index) => ({
           ...module,
           position: index + 1,
-          create: module.rights.includes('create'),
-          reading: module.rights.includes('read'),
-          update: module.rights.includes('update'),
-          delete: module.rights.includes('delete'),
-          list: module.rights.includes('list')
+          create: module.rights.create,
+          reading: module.rights.read,
+          update: module.rights.update,
+          delete: module.rights.delete,
+          list: module.rights.list
         }));
       },
       error: err => {

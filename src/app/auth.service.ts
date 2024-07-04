@@ -92,13 +92,16 @@ import { switchMap } from 'rxjs';
 
 export class AuthService  {
   private Url = 'http://10.100.3.140:8000'; 
-  private UrlChange = 'http://10.100.3.140:8001'
+  private UrlChange = 'http://10.100.3.140:8080'
   private signIn = 'signIn'
   constructor(
     private http: HttpClient,
     private storageService: StorageService,
     private router: Router) {}
   private token = JSON.parse(localStorage.getItem('zup-token') || '{}');
+
+
+
   changePassword(oldPasswordForm: string, newPasswordForm: string): Observable<any> {
     //const token = localStorage.getItem('zup-token');
     const body = {
@@ -129,7 +132,8 @@ export class AuthService  {
     window.localStorage.setItem('zup-username', body.login);
     return this.http.post<any>(
         `${this.Url}/${this.signIn}`, JSON.stringify(bodyRequest)
-    ).pipe(switchMap(() => this.getUserModules()))
+    )
+    //.pipe(switchMap(() => this.getUserModules()))
 }
 
   refreshToken(): Observable<any> {
@@ -148,6 +152,8 @@ export class AuthService  {
     this.router.navigate(['/']);
 }
   getUserModules(): Observable<User> {
+    this.token = JSON.parse(localStorage.getItem('zup-token') || '{}');
+    //console.log(this.token.token);
     return this.http.get<User>(`http://10.100.3.140:8080/user`,{
       headers : new HttpHeaders({
       'Content-Type': 'application/json',

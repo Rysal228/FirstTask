@@ -61,10 +61,18 @@ export class AuthComponent implements OnInit {
     this.authService.login(this.authForm.value).subscribe({
       next: data => {
         this.storageService.saveToken(data);
+        console.log(data);
+        this.authService.getUserModules().subscribe({
+          next : user => {
+          this.isLoggedIn = true;
+          this.isLoginFailed = false;
+          this.router.navigate(['/mainPage']);
+          },
+          error : err => {
+            console.log('Ошибка при подключении модулей', err)
+          }
+        })
 
-        this.isLoggedIn = true;
-        this.isLoginFailed = false;
-        this.router.navigate(['/mainPage']);
       },
       error: err => {
         if (err instanceof HttpErrorResponse && err.status === 400) {

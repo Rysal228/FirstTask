@@ -28,7 +28,7 @@ export class StorageService {
   constructor() { }
 
   public isLoggedOut() {
-    console.log(window.localStorage.getItem(USER_KEY));
+    //console.log(window.localStorage.getItem(USER_KEY));
     window.localStorage.removeItem(USER_KEY);
   }
 }

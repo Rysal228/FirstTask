@@ -40,8 +40,13 @@
         <th mat-header-cell class="centerTitle" *matHeaderCellDef> Просмотр </th>
         <td mat-cell class="centerTitle" class="centerTitle" *matCellDef="let element"> {{element.list ? '✓' : '✗'}} </td>
       </ng-container>
+
+      <ng-container matColumnDef="link">
+        <th mat-header-cell class="centerTitle" *matHeaderCellDef> Ссылка на модуль </th>
+        <td mat-cell class="centerTitle" *matCellDef="let element"> <a href="{{element.link}}" class="link"><mat-icon>link</mat-icon></a> </td>
+      </ng-container>
     
-      <tr mat-header-row *matHeaderRowDef="['position', 'name', 'create','reading', 'update','delete','list']"></tr>
+      <tr mat-header-row *matHeaderRowDef="['position', 'name', 'create','reading', 'update','delete','list','link']"></tr>
     
       <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
   </table>

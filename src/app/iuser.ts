@@ -1,6 +1,7 @@
 export interface Module {
     module: string;
     rights: Rights;
+    link: string;
   }
   
 export interface User {

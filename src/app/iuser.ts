@@ -1,4 +1,5 @@
 // для получения данных конкретному юзеру
+
 export interface Module {
   module: string;
   rights: Rights;

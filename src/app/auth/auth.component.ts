@@ -83,6 +83,14 @@ export class AuthComponent implements OnInit {
           this.isLoggedIn = true;
           this.isLoginFailed = false;
           this.router.navigate(['/mainPage']);
+          this.authService.getModules().subscribe({
+            next: modules => {
+              console.log(modules);
+            },
+            error : err => {
+              console.log('Ошибка при подключении всех модулей', err)
+            }
+          })
           },
           error : err => {
             console.log('Ошибка при подключении модулей', err)

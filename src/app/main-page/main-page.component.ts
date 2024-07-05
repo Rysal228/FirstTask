@@ -8,28 +8,21 @@ import {
   MatBottomSheet,
   MatBottomSheetModule,
 } from '@angular/material/bottom-sheet';
-import {FormsModule} from '@angular/forms';
-import {
-  MAT_DIALOG_DATA,
-  MatDialog,
-  MatDialogActions,
-  MatDialogClose,
-  MatDialogContent,
-  MatDialogRef,
-  MatDialogTitle,
-} from '@angular/material/dialog';
-import {MatFormFieldModule} from '@angular/material/form-field';
-import {MatInputModule} from '@angular/material/input';
+import {MatDialog} from '@angular/material/dialog';
 import {MatButtonModule} from '@angular/material/button';
 import {MatMenuModule} from '@angular/material/menu';
-import { TableUserComponent } from '../table-user/table-user.component';
+import { TableUserComponent } from './table-user/table-user.component';
 import {MatTooltipModule} from '@angular/material/tooltip';
 import {MatTabsModule} from '@angular/material/tabs';
 import { User } from '../iuser';
+import { AuthService } from '../auth.service';
+import { DialogChangePasswordComponent } from './dialog-change-password/dialog-change-password.component';
+import { DialogCreateUserComponent } from './dialog-create-user/dialog-create-user.component';
+import { StorageService } from '../storage.service';
 
 export interface DialogData {
-  animal: string;
-  name: string;
+  currentPassword: string;
+  newPassword: string;
 }
 
 @Component({
@@ -42,23 +35,25 @@ export interface DialogData {
 })
 export class MainPageComponent implements OnInit {
   user: User | null = null; 
-  userName = "Manchik";
+  userName = localStorage.getItem('zup-username');
 
   constructor(
-    private userService: UserServiceService, 
-    private route: Router, 
-    private _bottomSheet: MatBottomSheet, 
-    private dialog: MatDialog) {} 
+    private router: Router, 
+    private dialog: MatDialog,
+    private authService: AuthService,
+    private storageService: StorageService) {} 
 
-  
+// Чтобы неавт. пользователь не смог зайти на главную страницу  
   ngOnInit() {
-    this.user = this.userService.getUser(); 
-    //console.log(this.user.role);
+    if (!localStorage.getItem('zup-token')) {
+      this.router.navigate([''])
+    }
   }
 
   onExit(){
-    this.user = this.userService.clearUser();
-    this.route.navigate(['/MainPage']);
+    //this.user = this.userService.clearUser();
+    this.authService.logout();
+    // this.route.navigate(['/MainPage']);
     //console.log(this.user);
   }
 
@@ -66,43 +61,17 @@ export class MainPageComponent implements OnInit {
     
   }
 
-  openDialog(): void {
-    this.dialog.open(DialogOverviewExampleDialog,{
+  openDialogChangePassword(): void {
+    this.dialog.open(DialogChangePasswordComponent,{
+      panelClass: 'custom-modalbox'
+    });
+  }
+
+  openDialogCreateUser(): void {
+    this.dialog.open(DialogCreateUserComponent,{
       panelClass: 'custom-modalbox'
     });
   }
 
 }
-@Component({
-  selector: 'dialog-overview-example-dialog',
-  templateUrl: 'dialog-overview-example-dialog.html',
-  styleUrl: './main-page.component.scss',
-  standalone: true,
-  imports: [
-    MatFormFieldModule,
-    MatInputModule,
-    FormsModule,
-    MatButtonModule,
-    MatDialogTitle,
-    MatDialogContent,
-    MatDialogActions,
-    MatDialogClose,
-    MatIconModule,
-  ],
-})
-export class DialogOverviewExampleDialog {
 
-  constructor(private dialogRef: MatDialogRef<DialogOverviewExampleDialog>) {}
-
-  onNoClick(): void {
-    this.dialogRef.close();
-  }
-
-  hideCurrentPassword = true;
-  hideNewPassword = true;
-  hideNewRepeatPassword = true;
-
-  togglePasswordVisibility(property: 'hideCurrentPassword' | 'hideNewPassword' | 'hideNewRepeatPassword') {
-    this[property] = !this[property];
-  }
-}

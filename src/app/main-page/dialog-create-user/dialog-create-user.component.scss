@@ -1,0 +1,22 @@
+@use '@angular/material' as mat;
+@import '../../../../public/style.scss';
+
+::ng-deep .chemgePasWindow,
+.createUserWindow {
+    .mat-mdc-dialog-container .mdc-dialog__surface {
+        border-radius: 0 !important;
+  }
+}
+
+.actions-container {
+    display: flex;
+    justify-content: space-between;
+}
+
+.input-container {
+    width: 100%;
+}
+
+mat-dialog-actions {
+    display: block;
+}

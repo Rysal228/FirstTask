@@ -6,26 +6,10 @@ import { User } from '../iuser';
 })
 export class UserServiceService {
   private currentUser : User | null = null;
-
-  setUser(users: User)
-  {
-    this.currentUser = users;
-  }
-
-  getUser(): User | null {
-    //console.log(this.currentUser)
-    return this.currentUser;
-    
-  }
-
-   clearUser() {
-     this.currentUser = null;
-     return this.currentUser;
-   }
    
-   getUserModules(): any[] {
-    return this.currentUser ? this.currentUser.modules : [];
-  }
+  //  getUserModules(): any[] {
+  //   return this.currentUser ? this.currentUser.scope : [];
+  // }
 
   constructor() { }
 }

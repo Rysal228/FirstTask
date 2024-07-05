@@ -1,13 +1,67 @@
-<form (ngSubmit)="onSubmit()" class="example-form">
+<!-- <form (ngSubmit)="onSubmit()" class="example-form">
     <mat-form-field class="example-full-width">
-      <mat-label>Email</mat-label>
-      <input type="email" matInput [formControl]="emailFormControl" placeholder="Ex. pat@example.com">
-      <mat-error *ngIf="emailFormControl.hasError('email') && !emailFormControl.hasError('required')">
-        Please enter a valid email address
+      <mat-label>Login</mat-label>
+      <input type="login" matInput [formControl]="loginFormControl" placeholder="Ex. pat@example.com">
+      <mat-error *ngIf="loginFormControl.hasError('login') && !loginFormControl.hasError('required')">
+        Please enter a valid login address
       </mat-error>
-      <mat-error *ngIf="emailFormControl.hasError('required')">
-        Email is <strong>required</strong>
+      <mat-error *ngIf="loginFormControl.hasError('required')">
+        Login is <strong>required</strong>
       </mat-error>
     </mat-form-field>
     <button mat-raised-button color="primary" type="submit">Submit</button>
-  </form>
+  </form> -->
+
+  <div class="auth-form">
+    <form name="form"
+    [formGroup]="authForm"
+          (ngSubmit)="onSubmit()">
+        <h2>Авторизация</h2>
+        <mat-form-field appearance="outline" class="otstup">
+            <mat-label>Логин</mat-label>
+            <input matInput type="text" [(ngModel)]="login" formControlName="login" name="login">
+            <button 
+              matSuffix 
+              mat-icon-button 
+              aria-label="Clear" 
+              (click)="login=''">
+              <mat-icon>close</mat-icon>
+            </button>
+            <mat-error>*Поле обязательно для заполнения</mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+            <mat-label>Пароль</mat-label>
+            <input matInput formControlName="password" [type]="hideCurrentPassword ? 'password' : 'text'" />
+            <button
+              mat-icon-button
+              matSuffix
+              (click)="togglePasswordVisibility('hideCurrentPassword')"
+              [attr.aria-label]="'Hide password'">
+              <mat-icon>{{ hideCurrentPassword ? 'visibility_off' : 'visibility' }}</mat-icon>
+            </button>
+            <mat-error>*Поле обязательно для заполнения</mat-error>
+            <!--<input matInput
+            formControlName="password"
+                   type='password'
+                   name="password">
+             <mat-hint *ngIf="this.isLoginFailed===true"
+                      [ngStyle]="{color: this.colorValue()}">Неверный логин/пароль</mat-hint>-->
+        </mat-form-field>
+        
+        <div class="error-message" *ngIf="this.isLoginFailed===true">
+          <div><mat-icon>warning</mat-icon></div>
+          <div class="textEr">{{loggingInError}}</div>
+        </div>
+        <!--
+        @if (emailFormControl.hasError('required')) {
+          <mat-error>Email is <strong>required</strong></mat-error>
+        }
+          -->
+        <button
+        mat-button mat-raised-button
+                color="primary"
+                type="submit">Войти</button>
+        <!-- <div *ngIf="loggingInError"> Введённый логин или пароль неверный</div> -->
+    </form>
+</div>

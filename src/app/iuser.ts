@@ -1,13 +1,26 @@
 export interface Module {
-    name: string;
-    rights: string[];
+    module: string;
+    rights: Rights;
+    link: string;
   }
   
-  export interface User {
-    id: number;
-    email: string;
-    role: string;
-    password: string;
-    modules: Module[];
-  }
-  
+export interface User {
+  login: string;
+  name: string;
+  scope: Module[];
+}
+
+export interface Rights {
+  create: boolean,
+  read: boolean,
+  update: boolean,
+  delete: boolean,
+  list: boolean
+}
+    // export interface User {
+  //   login: string;
+  //   role: string;
+  //   pass: string;
+  //   name: string;
+  //   scope: Module[];
+  // }

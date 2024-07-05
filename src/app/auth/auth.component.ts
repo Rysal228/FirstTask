@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { FormControl, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -6,57 +6,127 @@ import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
-import { UserServiceService } from '../main-page/user-service.service';
 import { AuthService } from '../auth.service';
-import { User } from '../iuser';
+import { FormBuilder } from '@angular/forms';
+import { StorageService } from '../storage.service';
+import {MatButtonModule} from '@angular/material/button';
+import { HttpErrorResponse } from '@angular/common/http';
+import {MatIconModule} from '@angular/material/icon';
 
 @Component({
   selector: 'app-auth',
   standalone: true,
-  imports: [CommonModule, RouterOutlet, MatSlideToggleModule, FormsModule, MatFormFieldModule, MatInputModule, ReactiveFormsModule],
+  imports: [
+    CommonModule, 
+    RouterOutlet, 
+    MatButtonModule, 
+    MatSlideToggleModule, 
+    FormsModule, 
+    MatFormFieldModule, 
+    MatInputModule, 
+    ReactiveFormsModule,
+    MatIconModule
+  ],
   templateUrl: 'auth.component.html',
   styleUrl: './auth.component.scss'
 })
-export class AuthComponent {
 
-  emailFormControl = new FormControl('', [Validators.required, Validators.email]);
-  //users : any = null;
-  constructor(private authService: AuthService, private router: Router, private UserServiceService: UserServiceService) {}
+export class AuthComponent implements OnInit {
   
-  onSubmit() {
-    if (this.emailFormControl.valid) {
-      const email = this.emailFormControl.value;
-      if (email !== null) {
-        this.authService.checkEmail(email).subscribe(
-          (users: User[]) => {
-              const user = users.find(u => u.email === email);
-              if (user) {
-              this.authService.getUserModules(user.id).subscribe(
-                (fullUser: User) => { 
-                  console.log(fullUser);
-                  this.UserServiceService.setUser(fullUser); 
-                  this.router.navigate(['/']);
-                 
-                   //this.UserServiceService.setUser(user);
-                },
-              );
-            } else {
-              console.log('Email not found');
-            }
-          },
-          (error: any) => {
-            console.error('Error checking email:', error);
-          }
-        );
-      } else {
-        console.error('Email value is null');
-      }
+  authForm = this.fb.group({
+    //grant_type: ['password'],
+    login: ['', Validators.required],
+    password: ['', Validators.required],
+  })
+
+  loggingInError: string = ''
+
+  isLoggedIn = false;
+  isLoginFailed = false;
+  hide = true;
+  errorMessage = '';
+  login: any;
+  // login = new FormControl('', [Validators.required]);
+  // password = new FormControl('', Validators.required);
+  constructor(
+    private authService: AuthService, 
+    private router: Router, 
+    private fb: FormBuilder,
+    private storageService: StorageService) {}
+
+  hideCurrentPassword = true;
+  togglePasswordVisibility(property: 'hideCurrentPassword') {
+    this.hideCurrentPassword = !this.hideCurrentPassword;
+  }
+
+  colorValue() {
+    return 'red'
+  }
+
+  ngOnInit(): void {
+    if (this.storageService.isLoggedIn()) {
+      this.isLoggedIn = true;
+      //должен обновлять токен, авторизованному чуваку, если тот попадает на страницу auth
+      this.authService.refreshToken();
+      //и возвращать на страницу для работы
+      this.router.navigate(['/mainPage'])
     }
   }
 
-// onSubmit() {
-//   if (this.emailFormControl.valid) {
-//     this.router.navigate(['/MainPage']);
-//   }
-// }
+  onSubmit(): void {
+    this.authService.login(this.authForm.value).subscribe({
+      next: data => {
+        this.storageService.saveToken(data);
+        console.log(data);
+        this.authService.getUserModules().subscribe({
+          next : user => {
+          this.isLoggedIn = true;
+          this.isLoginFailed = false;
+          this.router.navigate(['/mainPage']);
+          },
+          error : err => {
+            console.log('Ошибка при подключении модулей', err)
+          }
+        })
+
+      },
+      error: err => {
+        this.isLoginFailed = true;
+        if (err instanceof HttpErrorResponse && err.status === 400) {
+          //console.log('Error: ', err);
+          this.loggingInError = "Неверный логин или пароль";
+          //console.log('loggingInError', this.loggingInError);
+          // console.log(err)
+        } else if (err.status === 0) {
+          this.loggingInError = "Ошибка: Нет подключения с сервером";
+        } else {
+          this.loggingInError = "Ошибка: " + err.status;
+        }
+      },
+    });
+  }
+
+  // onSubmit(): void {
+  //   this.authService.login(this.authForm.value).subscribe({
+  //     next: data => {
+  //       this.storageService.saveToken(data);
+
+  //       this.isLoggedIn = true;
+  //       this.isLoginFailed = false;
+  //       this.router.navigate(['/mainPage']);
+  //     },
+  //     error: err => {
+  //       if (err instanceof HttpErrorResponse && err.status === 400) {
+  //         //console.log('Error: ', err)
+  //         this.loggingInError = err.error;
+  //         //console.log('loggingInError', this.loggingInError);
+  //         this.isLoginFailed = true;
+  //         // console.log(err)
+  //       }
+  //     },
+
+  //   });
+  // }
+
+
 }

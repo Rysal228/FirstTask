@@ -1,0 +1,33 @@
+table {
+  width: 100%;
+}
+
+.centerTitle {
+  text-align: center;
+}
+
+.mat-header-cell {
+  border-left: 1px solid transparent;
+  border-right: 1px solid transparent;
+}
+
+.table-otstup {
+  margin: 20px;
+}
+
+.obzach {
+  margin-left: 15px;
+}
+
+.oneColomn {
+  flex: 0 0 5%;
+}
+
+.link {
+  text-decoration: none;
+  color: black;
+}
+
+::ng-deep .mat-paginator {
+  border-top: 1px solid #e0e0e0;
+}

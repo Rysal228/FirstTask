@@ -37,7 +37,7 @@
 .example-container mat-form-field + mat-form-field {
     margin-left: 8px;
 }
-}
+
   
 .example-right-align {
     text-align: right;
@@ -47,21 +47,17 @@
 input.example-right-align::-webkit-outer-spin-button,
 input.example-right-align::-webkit-inner-spin-button {
     display: none;
-    display: none;
 }
   
 input.example-right-align {
-    -moz-appearance: textfield;
     -moz-appearance: textfield;
 }
 
 .rightNav {
     display: flex;
-    display: flex;
 }
 
 .example-tooltip-uppercase {
-    text-transform: uppercase;
     text-transform: uppercase;
 }
 
@@ -75,16 +71,11 @@ input.example-right-align {
 }
   
 .logo {
-.logo {
     color: #fff;
     margin-top: 3px;
     margin-bottom: 5px;
 }
-    margin-top: 3px;
-    margin-bottom: 5px;
-}
   
-.profile {
 .profile {
     opacity: .6;
 }

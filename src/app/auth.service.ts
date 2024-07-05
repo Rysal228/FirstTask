@@ -74,6 +74,7 @@ export class AuthService  {
   getUserModules(): Observable<User> {
     this.token = JSON.parse(localStorage.getItem('zup-token') || '{}');
     //console.log(this.token.token);
+    //http://10.100.3.140:8080/user/getOne новый адрес
     return this.http.get<User>(`http://10.100.3.140:8080/user`,{
       headers : new HttpHeaders({
       'Content-Type': 'application/json',
@@ -83,7 +84,7 @@ export class AuthService  {
   }
 
   getUserslist(): Observable<Users> {
-    return this.http.get<Users>(`http:\\10.100.3.140:8888/user/list`)
+    return this.http.get<Users>(`http:\\10.100.3.140:8888/user/getList`)
   }
 
   getModules(): Observable<Modules> {

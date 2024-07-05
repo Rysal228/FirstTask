@@ -1,26 +1,33 @@
+// для получения данных конкретному юзеру
 export interface Module {
-    module: string;
-    rights: Rights;
-    link: string;
-  }
-  
+  module: string;
+  rights: Rights;
+  link: string;
+}
+
 export interface User {
-  login: string;
-  name: string;
-  scope: Module[];
+login: string;
+name: string;
+scope: Module[];
+superAdmin: boolean;
 }
 
 export interface Rights {
-  create: boolean,
-  read: boolean,
-  update: boolean,
-  delete: boolean,
-  list: boolean
+create: boolean,
+read: boolean,
+update: boolean,
+delete: boolean,
+list: boolean
 }
-    // export interface User {
-  //   login: string;
-  //   role: string;
-  //   pass: string;
-  //   name: string;
-  //   scope: Module[];
-  // }
+
+// для получения всех модулей и пользователей администратору 
+
+export interface Modules {
+id: number,
+name: string,
+shortName : string
+}
+
+export interface Users {
+ Users: User[]
+}

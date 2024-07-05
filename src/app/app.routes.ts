@@ -9,7 +9,6 @@ export const routes: Routes = [
     },
     {
         path: 'mainPage',
-        path: 'mainPage',
         component: MainPageComponent
     }
 ];

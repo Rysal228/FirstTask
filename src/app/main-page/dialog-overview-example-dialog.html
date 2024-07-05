@@ -1,0 +1,59 @@
+
+<!--
+<mat-dialog-content>
+  <h1>Измененение пароля</h1>
+</mat-dialog-content>
+-->
+<h2 mat-dialog-title>Измененение пароля</h2>
+<mat-dialog-actions>
+  <form [formGroup]="changePasswordForm" (ngSubmit)="onSubmitChangePassword()" >
+  <div class="example-container">
+    <mat-form-field class="input-container">
+      <mat-label>Введите свой действительный пароль</mat-label>
+      <input matInput formControlName="currentPassword" [type]="hideCurrentPassword ? 'password' : 'text'" />
+      <button
+        mat-icon-button
+        matSuffix
+        (click)="togglePasswordVisibility('hideCurrentPassword')"
+        [attr.aria-label]="'Hide password'"
+      >
+        <mat-icon>{{ hideCurrentPassword ? 'visibility_off' : 'visibility' }}</mat-icon>
+      </button>
+    </mat-form-field>
+    <br>
+    <mat-form-field class="input-container">
+      <mat-label>Введите новый пароль</mat-label>
+      <input matInput formControlName="newPassword" [type]="hideNewPassword  ? 'password' : 'text'" />
+      <button
+        mat-icon-button
+        matSuffix
+        (click)="togglePasswordVisibility('hideNewPassword')"
+        [attr.aria-label]="'Hide password'"
+      >
+        <mat-icon>{{ hideNewPassword  ? 'visibility_off' : 'visibility' }}</mat-icon>
+      </button>
+    </mat-form-field>
+    <br>
+    <mat-form-field class="input-container">
+      <mat-label>Повторите новый пароль</mat-label>
+      <input matInput formControlName="repeatNewPassword" [type]="hideNewRepeatPassword ? 'password' : 'text'" />
+      <button
+        mat-icon-button
+        matSuffix
+        (click)="togglePasswordVisibility('hideNewRepeatPassword')"
+        [attr.aria-label]="'Hide password'"
+      >
+        <mat-icon>{{ hideNewRepeatPassword ? 'visibility_off' : 'visibility' }}</mat-icon>
+      </button>
+    </mat-form-field>
+  </div>
+  <div class="actions-container">
+    <div class="button-container">
+      <button mat-button cdkFocusInitial>Ok</button>
+    </div>
+    <div class="button-container">
+      <button mat-button (click)="onNoClick()">Отмена</button>
+    </div>
+  </div>
+</form>
+</mat-dialog-actions>

@@ -24,6 +24,13 @@ export class TableUserComponent {
     this.loadUserModules();
   }
 
+  // loadUserModules(): void {
+  //   const modules = this.userServiceService.getUserModules();
+  //   this.dataSource = modules.map((module, index) => ({
+  //     ...module,
+  //     position: index + 1
+  //   }));
+  // }
   loadUserModules(): void {
 
     this.authService.getUserModules().subscribe({

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { FormControl, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';

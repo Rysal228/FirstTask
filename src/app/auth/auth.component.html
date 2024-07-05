@@ -1,10 +1,17 @@
 <!-- <form (ngSubmit)="onSubmit()" class="example-form">
+<!-- <form (ngSubmit)="onSubmit()" class="example-form">
     <mat-form-field class="example-full-width">
       <mat-label>Login</mat-label>
       <input type="login" matInput [formControl]="loginFormControl" placeholder="Ex. pat@example.com">
       <mat-error *ngIf="loginFormControl.hasError('login') && !loginFormControl.hasError('required')">
         Please enter a valid login address
+      <mat-label>Login</mat-label>
+      <input type="login" matInput [formControl]="loginFormControl" placeholder="Ex. pat@example.com">
+      <mat-error *ngIf="loginFormControl.hasError('login') && !loginFormControl.hasError('required')">
+        Please enter a valid login address
       </mat-error>
+      <mat-error *ngIf="loginFormControl.hasError('required')">
+        Login is <strong>required</strong>
       <mat-error *ngIf="loginFormControl.hasError('required')">
         Login is <strong>required</strong>
       </mat-error>

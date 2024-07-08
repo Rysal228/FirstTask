@@ -9,9 +9,9 @@ import { Router } from '@angular/router';
 import { AuthService } from '../auth.service';
 import { FormBuilder } from '@angular/forms';
 import { StorageService } from '../storage.service';
-import {MatButtonModule} from '@angular/material/button';
+import { MatButtonModule } from '@angular/material/button';
 import { HttpErrorResponse } from '@angular/common/http';
-import {MatIconModule} from '@angular/material/icon';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'app-auth',

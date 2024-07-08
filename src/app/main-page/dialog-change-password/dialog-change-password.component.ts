@@ -8,10 +8,12 @@ import {
   MatDialogRef,
   MatDialogTitle,
 } from '@angular/material/dialog';
+import { CommonModule } from '@angular/common';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { AuthService } from '../../auth.service';
+import { HttpErrorResponse } from '@angular/common/http';
 
 
 @Component({
@@ -29,7 +31,8 @@ import { AuthService } from '../../auth.service';
     MatDialogActions,
     MatDialogClose,
     MatIconModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    CommonModule
   ],
 })
 export class DialogChangePasswordComponent {
@@ -39,6 +42,11 @@ export class DialogChangePasswordComponent {
     private authService: AuthService,
     private fb: FormBuilder
   ) {}
+
+  changePasError: string = ''
+
+  isChangePas = false;
+  isChangePasFailed = false;
 
   ngOnInit() {
     this.dialogRef.updateSize('400px', 'auto');
@@ -73,18 +81,28 @@ export class DialogChangePasswordComponent {
       if ((currentPassword !== null && newPassword !== null && newRepeatPassword !== null) &&( newPassword === newRepeatPassword)) {
         this.authService.changePassword(currentPassword, newPassword).subscribe({
           next : response => {
-            console.log('Пароль успешно изменен', response);
+            this.changePasError = 'Пароль успешно изменен' + response;
+            this.isChangePasFailed = true;
             this.dialogRef.close();
           },
           error: error => {
-            console.log('Ошибка при изменении пароля', error);
+            this.changePasError = 'Ошибка при изменении пароля' + error;
+            this.isChangePasFailed = true;
+            if (error instanceof HttpErrorResponse && error.status === 400)
+              this.changePasError = "Неверный действительный пароль";
+            else if (error.status === 0)
+              this.changePasError = "Ошибка: Нет подключения с сервером";
+            else
+              this.changePasError = "Ошибка: " + error.status;
           }
         });
       } else {
-        console.log('Новый пароль и его повторение не совпадают.');
+        this.changePasError = 'Новый пароль и его повторение не совпадают';
+        this.isChangePasFailed = true;
       }
     } else {
-      console.log('Форма не валидна.');
+      this.changePasError = 'Форма не валидна';
+      this.isChangePasFailed = true;
     }
   }
 }

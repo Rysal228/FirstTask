@@ -28,9 +28,12 @@
             <mat-label>Логин</mat-label>
             <input matInput type="text" [(ngModel)]="login" formControlName="login" name="login">
             <button 
+              type="button"
               matSuffix 
               mat-icon-button 
+              disabled="true"
               aria-label="Clear" 
+              class="noButton"
               (click)="login=''">
               <mat-icon>close</mat-icon>
             </button>
@@ -41,11 +44,13 @@
             <mat-label>Пароль</mat-label>
             <input matInput formControlName="password" [type]="hideCurrentPassword ? 'password' : 'text'" />
             <button
+              type="button"
               mat-icon-button
+              class="heighBut"
               matSuffix
               (click)="togglePasswordVisibility('hideCurrentPassword')"
               [attr.aria-label]="'Hide password'">
-              <mat-icon>{{ hideCurrentPassword ? 'visibility_off' : 'visibility' }}</mat-icon>
+              <mat-icon class="centerIcon">{{ hideCurrentPassword ? 'visibility_off' : 'visibility' }}</mat-icon>
             </button>
             <mat-error>*Поле обязательно для заполнения</mat-error>
             <!--<input matInput

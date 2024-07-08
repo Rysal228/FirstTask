@@ -83,6 +83,17 @@ export class AuthService  {
     });
   }
   getModules(): Observable<Modules> {
-    return this.http.get<Modules>('http://10.100.3.140:8888/modules')
+    return this.http.get<Modules>('http://10.100.3.140:8080/modules',{ headers : new HttpHeaders({
+      'Authorization': `Bearer ${this.token.token}`
+      })
+    });
+  }
+
+  getTableUser(login:string): Observable<User> {
+
+    return this.http.get<User>(`http://10.100.3.140:8080/user/getOne/` + login,{ headers : new HttpHeaders({
+      'Authorization': `Bearer ${this.token.token}`
+      })
+    });
   }
 }

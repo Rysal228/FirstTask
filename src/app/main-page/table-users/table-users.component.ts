@@ -6,7 +6,7 @@ import { Module, User } from '../../iuser';
 import { StorageService } from '../../storage.service';
 import { MatIconModule } from '@angular/material/icon'
 import { Router } from '@angular/router';
-
+import { RouterModule } from '@angular/router';
 @Component({
   selector: 'app-table-users',
   standalone: true,
@@ -14,6 +14,7 @@ import { Router } from '@angular/router';
     CommonModule,
     MatTableModule,
     MatIconModule,
+    RouterModule 
   ],
   templateUrl: 'table-users.component.html',
   styleUrl: './table-users.component.scss'
@@ -21,7 +22,6 @@ import { Router } from '@angular/router';
 export class TableUsersComponent implements OnInit {
   displayedColumns: string[] = ['position', 'name', 'login'];
   dataSource = new MatTableDataSource<User>([]);
-  //dataSource: User[] = []; 
   constructor(
     private authService: AuthService,
     private router: Router){}
@@ -34,8 +34,7 @@ export class TableUsersComponent implements OnInit {
         next: (people: User[]) => {
           console.log('people:',people)
           this.dataSource.data = people;
-         // this.dataSource = users.Users; зачекать с dataSource
-         console.log('this.dataSource.data',this.dataSource.data);
+         //console.log('this.dataSource.data',this.dataSource.data);
         },
         error: err => {
           console.error('Ошибка при загрузке списка пользователей:', err);
@@ -43,8 +42,26 @@ export class TableUsersComponent implements OnInit {
       });
     }
     
-
-    navigateToUserRights(login: string): void {
-      this.router.navigate(['/user', login]);
+    navigate(login : string){
+      //console.log(login);
+      this.authService.getModules().subscribe({
+        next: modules => {
+          console.log('Модули:', modules)
+        },
+        error: err => {
+          console.log('Ошибка при загрузке модулей:', err)
+        }
+      })
+      // this.authService.getTableUser(login).subscribe({
+      //   next: User => {
+      //     console.log(User)
+      //   },
+      //   error: err => {
+      //     console.log('Ошибка при загрузке модулей пользователя:', err)
+      //   }
+      // });
     }
+    // navigateToUserRights(login: string): void {
+    //   this.router.navigate(['/user', login]);
+    // }
 }

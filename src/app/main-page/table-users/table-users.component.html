@@ -14,7 +14,7 @@
 
       <ng-container matColumnDef="login">
         <th mat-header-cell class="centerTitle" *matHeaderCellDef> Логин </th>
-        <td mat-cell class="centerTitle" *matCellDef="let element"> <a routerLink="/heroes"> {{element.login}} </a> </td>
+        <td mat-cell class="centerTitle" *matCellDef="let element" (click)="navigate(element.login)">{{element.login}} </td>
       </ng-container>
 
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>

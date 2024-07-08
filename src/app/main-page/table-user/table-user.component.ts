@@ -31,7 +31,8 @@ export class TableUserComponent {
   
   constructor(
     private authService: AuthService,
-    private storageService: StorageService){}
+    private storageService: StorageService
+  ){}
 
   length = 0;
   pageSize = 10;

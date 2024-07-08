@@ -28,6 +28,7 @@
             <mat-label>Логин</mat-label>
             <input matInput type="text" [(ngModel)]="login" formControlName="login" name="login">
             <button 
+              type="button"
               matSuffix 
               mat-icon-button 
               disabled="true"
@@ -43,6 +44,7 @@
             <mat-label>Пароль</mat-label>
             <input matInput formControlName="password" [type]="hideCurrentPassword ? 'password' : 'text'" />
             <button
+              type="button"
               mat-icon-button
               class="heighBut"
               matSuffix

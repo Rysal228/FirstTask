@@ -77,20 +77,16 @@ export class AuthComponent implements OnInit {
     this.authService.login(this.authForm.value).subscribe({
       next: data => {
         this.storageService.saveToken(data);
-        console.log(data);
+        //console.log(data);
         this.authService.getUserModules().subscribe({
           next : user => {
+          //this.storageService.saveUser(user);
+          console.log('user:',user);
+          const superAdminStr = !!user.superadmin ? 'true' : 'false';
+          window.localStorage.setItem('zup-userrole', superAdminStr);
           this.isLoggedIn = true;
           this.isLoginFailed = false;
           this.router.navigate(['/mainPage']);
-          this.authService.getModules().subscribe({
-            next: modules => {
-              console.log(modules);
-            },
-            error : err => {
-              console.log('Ошибка при подключении всех модулей', err)
-            }
-          })
           },
           error : err => {
             console.log('Ошибка при подключении модулей', err)
@@ -113,28 +109,4 @@ export class AuthComponent implements OnInit {
       },
     });
   }
-
-  // onSubmit(): void {
-  //   this.authService.login(this.authForm.value).subscribe({
-  //     next: data => {
-  //       this.storageService.saveToken(data);
-
-  //       this.isLoggedIn = true;
-  //       this.isLoginFailed = false;
-  //       this.router.navigate(['/mainPage']);
-  //     },
-  //     error: err => {
-  //       if (err instanceof HttpErrorResponse && err.status === 400) {
-  //         //console.log('Error: ', err)
-  //         this.loggingInError = err.error;
-  //         //console.log('loggingInError', this.loggingInError);
-  //         this.isLoginFailed = true;
-  //         // console.log(err)
-  //       }
-  //     },
-
-  //   });
-  // }
-
-
 }

@@ -23,6 +23,7 @@ import { MatPaginator, MatPaginatorModule, PageEvent } from '@angular/material/p
 export class TableUserComponent {
   displayedColumns: string[] = ['position', 'name', 'create', 'reading', 'update', 'delete', 'list','link'];
   dataSource2?: MatTableDataSource<Module>;
+ // dataSource = new MatTableDataSource<Module>([]); чекнуть взамен записи ниже
   dataSource: Module[] = [];
   paginator: any;
   itemPerPage = 30;

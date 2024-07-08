@@ -3,9 +3,8 @@ import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable, delay, tap } from 'rxjs';
 import { StorageService } from './storage.service';
 import { Router } from '@angular/router';
-import { Modules, User, Users } from './iuser';
-import Module from 'module';
-
+import { User} from './iuser';
+import { Modules } from './iuser';
 @Injectable({
   providedIn: 'root'
 })
@@ -44,16 +43,10 @@ export class AuthService  {
       login: body.login,
       pass: body.password
     }
-    // const bodyRequest = new HttpParams()
-    //    // .set('grant_type', body.grant_type)
-    //     .set('username', body.login)
-    //     .set('password', body.password)
-    //    // .set('scope', body.scope)
     window.localStorage.setItem('zup-username', body.login);
     return this.http.post<any>(
         `${this.Url}/${this.signIn}`, JSON.stringify(bodyRequest)
     )
-    //.pipe(switchMap(() => this.getUserModules()))
 }
 
   refreshToken(): Observable<any> {
@@ -75,7 +68,7 @@ export class AuthService  {
     this.token = JSON.parse(localStorage.getItem('zup-token') || '{}');
     //console.log(this.token.token);
     //http://10.100.3.140:8080/user/getOne новый адрес
-    return this.http.get<User>(`http://10.100.3.140:8080/user`,{
+    return this.http.get<User>(`http://10.100.3.140:8080/user/getOne`,{
       headers : new HttpHeaders({
       'Content-Type': 'application/json',
       'Authorization': `Bearer ${this.token.token}`
@@ -83,11 +76,13 @@ export class AuthService  {
     })
   }
 
-  getUserslist(): Observable<Users> {
-    return this.http.get<Users>(`http:\\10.100.3.140:8888/user/getList`)
+  getUserslist(): Observable<User[]> {
+    return this.http.get<User[]>(`http://10.100.3.140:8080/user/getList`,{ headers : new HttpHeaders({
+      'Authorization': `Bearer ${this.token.token}`
+      })
+    });
   }
-
   getModules(): Observable<Modules> {
-    return this.http.get<Modules>('http:\\10.100.3.140:8888/modules')
+    return this.http.get<Modules>('http://10.100.3.140:8888/modules')
   }
 }

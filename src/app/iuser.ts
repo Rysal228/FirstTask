@@ -10,7 +10,7 @@ export interface User {
 login: string;
 name: string;
 scope: Module[];
-superAdmin: boolean;
+superadmin: boolean;
 }
 
 export interface Rights {
@@ -29,6 +29,6 @@ name: string,
 shortName : string
 }
 
-export interface Users {
- Users: User[]
-}
+// export interface Users {
+//  Users: User[]
+// }

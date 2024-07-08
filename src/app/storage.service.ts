@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-
+import { User } from './iuser';
 const USER_KEY = 'zup-token';
 
 @Injectable({
@@ -25,6 +25,11 @@ export class StorageService {
     window.localStorage.removeItem(USER_KEY);
     window.localStorage.setItem(USER_KEY, JSON.stringify(user));
   }
+// мб удалить
+  // saveUser(user: User): void {
+  //   localStorage.setItem(USER_KEY, JSON.stringify(user));
+  // }
+
   constructor() { }
 
   public isLoggedOut() {

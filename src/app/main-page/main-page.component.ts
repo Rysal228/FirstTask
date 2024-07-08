@@ -19,7 +19,7 @@ import { AuthService } from '../auth.service';
 import { DialogChangePasswordComponent } from './dialog-change-password/dialog-change-password.component';
 import { DialogCreateUserComponent } from './dialog-create-user/dialog-create-user.component';
 import { StorageService } from '../storage.service';
-
+import { TableUsersComponent } from './table-users/table-users.component';
 export interface DialogData {
   currentPassword: string;
   newPassword: string;
@@ -28,7 +28,7 @@ export interface DialogData {
 @Component({
   selector: 'app-main-page',
   standalone: true,
-  imports: [MatTabsModule,CommonModule, AuthComponent,MatIconModule,MatTooltipModule, MatButtonModule, MatBottomSheetModule,MatMenuModule,TableUserComponent],
+  imports: [MatTabsModule,CommonModule, AuthComponent,MatIconModule,MatTooltipModule, MatButtonModule, MatBottomSheetModule,MatMenuModule,TableUserComponent,TableUsersComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: 'main-page.component.html',
   styleUrl: './main-page.component.scss'
@@ -36,7 +36,7 @@ export interface DialogData {
 export class MainPageComponent implements OnInit {
   user: User | null = null; 
   userName = localStorage.getItem('zup-username');
-
+  isSuperAdmin = localStorage.getItem('zup-userrole');
   constructor(
     private router: Router, 
     private dialog: MatDialog,

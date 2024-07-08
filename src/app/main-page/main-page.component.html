@@ -9,12 +9,6 @@
           <ng-template mat-tab-label>
               <span style="font-size: 14px;" class="white-icon">Добро пожаловать, {{this.userName}}!</span>
               <div>
-                  <!-- <button matSuffix
-                          mat-icon-button
-                          matTooltip="Выйти из профиля"
-                          >
-                      <mat-icon>exit_to_app</mat-icon>
-                  </button> -->
                 <button mat-icon-button [matMenuTriggerFor]="menu" 
                 type="button" class="button-settings" (click)="onSettings()"> <mat-icon class="white-icon">settings</mat-icon> 
               </button>
@@ -40,4 +34,9 @@
   </mat-tab-group>
 </header>
 
-<app-table-user></app-table-user>
+<ng-container *ngIf="isSuperAdmin === 'true'; else userTable">
+  <app-table-users></app-table-users>
+</ng-container> 
+<ng-template #userTable> 
+  <app-table-user></app-table-user>
+</ng-template>

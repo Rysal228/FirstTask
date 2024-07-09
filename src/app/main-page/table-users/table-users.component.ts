@@ -5,12 +5,9 @@ import { AuthService } from '../../auth.service';
 import { Module, User } from '../../iuser';
 import { MatIconModule } from '@angular/material/icon'
 import { Router } from '@angular/router';
-<<<<<<< HEAD
 import { RouterModule } from '@angular/router';
-=======
 import { MatPaginator, MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 
->>>>>>> d387ff1f11f418e07adb24117a2c8208b3fa8aba
 @Component({
   selector: 'app-table-users',
   standalone: true,
@@ -18,21 +15,19 @@ import { MatPaginator, MatPaginatorModule, PageEvent } from '@angular/material/p
     CommonModule,
     MatTableModule,
     MatIconModule,
-<<<<<<< HEAD
-    RouterModule 
-=======
+    RouterModule,
     MatPaginatorModule
->>>>>>> d387ff1f11f418e07adb24117a2c8208b3fa8aba
   ],
   templateUrl: 'table-users.component.html',
   styleUrl: './table-users.component.scss'
 })
 
 export class TableUsersComponent implements OnInit {
+navigate(arg0: any) {
+throw new Error('Method not implemented.');
+}
   displayedColumns: string[] = ['position', 'name', 'login'];
-<<<<<<< HEAD
-  dataSource = new MatTableDataSource<User>([]);
-=======
+
   dataSource: User[] = [];
   dataSource2?: MatTableDataSource<User>;
   //dataSource: User[] = []; 
@@ -41,75 +36,35 @@ export class TableUsersComponent implements OnInit {
   itemPerPage = 10;
   currentPage = 1;
 
->>>>>>> d387ff1f11f418e07adb24117a2c8208b3fa8aba
   constructor(
     private authService: AuthService,
     private router: Router
   ){}
   
-length = 0;
-pageSize = 1;
-pageIndex = 0;
-pageSizeOptions = [1, 10, 15, 20, 25];
+  length = 0;
+  pageSize = 1;
+  pageIndex = 0;
+  pageSizeOptions = [1, 10, 15, 20, 25];
 
-<<<<<<< HEAD
-    ngOnInit(): void {
-      this.loadUsers();
-    }
-    loadUsers(): void {
-      this.authService.getUserslist().subscribe({
-        next: (people: User[]) => {
-          console.log('people:',people)
-          this.dataSource.data = people;
-         //console.log('this.dataSource.data',this.dataSource.data);
-        },
-        error: err => {
-          console.error('Ошибка при загрузке списка пользователей:', err);
-        }
-      });
-    }
-    
-    navigate(login : string){
-      //console.log(login);
-      this.authService.getModules().subscribe({
-        next: modules => {
-          console.log('Модули:', modules)
-        },
-        error: err => {
-          console.log('Ошибка при загрузке модулей:', err)
-        }
-      })
-      // this.authService.getTableUser(login).subscribe({
-      //   next: User => {
-      //     console.log(User)
-      //   },
-      //   error: err => {
-      //     console.log('Ошибка при загрузке модулей пользователя:', err)
-      //   }
-      // });
-    }
-    // navigateToUserRights(login: string): void {
-    //   this.router.navigate(['/user', login]);
-    // }
-=======
-hidePageSize = false;
-showPageSizeOptions = true;
-showFirstLastButtons = true;
-disabled = false;
 
-pageEvent: PageEvent | undefined;
+  hidePageSize = false;
+  showPageSizeOptions = true;
+  showFirstLastButtons = true;
+  disabled = false;
 
-handlePageEvent(event: PageEvent) {
-  this.pageEvent = event;
-  this.length = event.length;
-  this.pageSize = event.pageSize;
-  this.pageIndex = event.pageIndex;
+  pageEvent: PageEvent | undefined;
 
-  if (this.dataSource2)
-    this.dataSource2.data = this.dataSource.slice(
-      event.pageIndex * event.pageSize,
-      (event.pageIndex + 1) * event.pageSize
-    );
+  handlePageEvent(event: PageEvent) {
+    this.pageEvent = event;
+    this.length = event.length;
+    this.pageSize = event.pageSize;
+    this.pageIndex = event.pageIndex;
+
+    if (this.dataSource2)
+      this.dataSource2.data = this.dataSource.slice(
+        event.pageIndex * event.pageSize,
+        (event.pageIndex + 1) * event.pageSize
+      );
   }
 
   ngOnInit(): void {
@@ -138,5 +93,4 @@ handlePageEvent(event: PageEvent) {
   navigateToUserRights(login: string): void {
     this.router.navigate(['/user', login]);
   }
->>>>>>> d387ff1f11f418e07adb24117a2c8208b3fa8aba
 }

@@ -1,4 +1,7 @@
 import {
+  SharedResizeObserver
+} from "./chunk-ENDVIORC.js";
+import {
   CdkPortal,
   CdkPortalOutlet,
   TemplatePortal
@@ -7,9 +10,6 @@ import {
   CdkScrollable,
   ViewportRuler
 } from "./chunk-ECYEZOQS.js";
-import {
-  SharedResizeObserver
-} from "./chunk-ENDVIORC.js";
 import {
   animate,
   state,

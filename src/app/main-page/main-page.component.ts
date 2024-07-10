@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, inject, model, signal, OnInit,ViewEncapsulation } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, model, signal, OnInit,ViewEncapsulation, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AuthComponent } from '../auth/auth.component';
 import { UserServiceService } from './user-service.service';
@@ -36,18 +36,30 @@ export interface DialogData {
 export class MainPageComponent implements OnInit {
   user: User | null = null; 
   userName = localStorage.getItem('zup-username');
-  isSuperAdmin = localStorage.getItem('zup-userrole');
+  //isSuperAdmin : boolean | null  = this.storageService.getRoleUser() ;
+  isSuperAdmin: boolean | null = null;
+  isAdminPage : boolean  = false;
   constructor(
     private router: Router, 
     private dialog: MatDialog,
     private authService: AuthService,
-    private storageService: StorageService) {} 
+    private storageService: StorageService,
+    private cdr: ChangeDetectorRef) {} 
 
 // Чтобы неавт. пользователь не смог зайти на главную страницу  
   ngOnInit() {
     if (!localStorage.getItem('zup-token')) {
       this.router.navigate([''])
     }
+    this.authService.getUserModules().subscribe({
+      next : user => {
+        this.storageService.saveRoleUser(user.superadmin);
+        this.isSuperAdmin = user.superadmin;
+        console.log('isSuperAdmin:', this.isSuperAdmin);
+        this.cdr.detectChanges(); 
+      }
+    })
+    console.log('isSuperAdmin:', this.isSuperAdmin);
   }
 
   onExit(){
@@ -73,5 +85,6 @@ export class MainPageComponent implements OnInit {
     });
   }
 
+  
 }
 

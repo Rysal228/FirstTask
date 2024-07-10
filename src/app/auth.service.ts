@@ -37,7 +37,20 @@ export class AuthService  {
     });
   }
 
+  createUser(loginForm : string, nameForm: string, passwordForm : string): Observable<any> {
 
+    const formCreateUser = {
+      login : loginForm,
+      name: nameForm,
+      pass  : passwordForm,
+    }
+    console.log('FormCreateUser:',formCreateUser)
+    return this.http.post(`${this.Url}/createUser`,formCreateUser, { headers : new HttpHeaders ({
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${this.token.token}`
+    })
+  });
+  }
   login(body: any): Observable<any> {
     const bodyRequest = {
       login: body.login,
@@ -68,7 +81,7 @@ export class AuthService  {
     this.token = JSON.parse(localStorage.getItem('zup-token') || '{}');
     //console.log(this.token.token);
     //http://10.100.3.140:8080/user/getOne новый адрес
-    return this.http.get<User>(`http://10.100.3.140:8080/user/getOne`,{
+    return this.http.get<User>(`http://10.100.3.140:8080/user/getCurrent`,{
       headers : new HttpHeaders({
       'Content-Type': 'application/json',
       'Authorization': `Bearer ${this.token.token}`
@@ -97,3 +110,7 @@ export class AuthService  {
     });
   }
 }
+
+
+
+

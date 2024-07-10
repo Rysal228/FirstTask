@@ -6,7 +6,7 @@ import { Module } from '../../iuser';
 import { StorageService } from '../../storage.service';
 import { MatIconModule } from '@angular/material/icon'
 import { MatPaginator, MatPaginatorModule, PageEvent } from '@angular/material/paginator';
-
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 @Component({
   selector: 'app-table-user',
   standalone: true,
@@ -14,7 +14,7 @@ import { MatPaginator, MatPaginatorModule, PageEvent } from '@angular/material/p
     CommonModule,
     MatTableModule,
     MatIconModule,
-    MatPaginatorModule
+    MatPaginatorModule,
   ],
   templateUrl: 'table-user.component.html',
   styleUrl: './table-user.component.scss'
@@ -23,15 +23,15 @@ import { MatPaginator, MatPaginatorModule, PageEvent } from '@angular/material/p
 export class TableUserComponent {
   displayedColumns: string[] = ['position', 'name', 'create', 'reading', 'update', 'delete', 'list','link'];
   dataSource2?: MatTableDataSource<Module>;
- // dataSource = new MatTableDataSource<Module>([]); чекнуть взамен записи ниже
   dataSource: Module[] = [];
   paginator: any;
+  isSuperAdmin : boolean | null = this.storageService.getRoleUser();
   itemPerPage = 30;
   currentPage = 1;
-  
   constructor(
     private authService: AuthService,
-    private storageService: StorageService
+    //public dialogRef: MatDialogRef<TableUserComponent>,
+    private storageService: StorageService,
   ){}
 
   length = 0;
@@ -60,7 +60,12 @@ export class TableUserComponent {
   }
 
   ngOnInit(): void {
-    this.loadUserModules();
+    if (this.isSuperAdmin){
+      this.loadCurrentUserModules();
+    }
+    else {
+      this.loadUserModules();
+    }
     this.dataSource2 = new MatTableDataSource<Module>(this.dataSource);
   }
   
@@ -88,5 +93,21 @@ export class TableUserComponent {
       }
     });
   }
+
+  loadCurrentUserModules(): void {
+  //   this.authService.getTableUser(login).subscribe({
+  //     next: User => {
+  //        this.dialog.open(TableUserComponent, {
+  //        data: { User },
+  //        panelClass: 'custom-modalbox'
+  //      });
+  //       console.log(User);
+   
+  //     },
+  //     error: err => {
+  //       console.log('Ошибка при загрузке модулей пользователя:', err)
+  //     }
+  //   });
+   }
 }
 

@@ -80,10 +80,8 @@ export class AuthComponent implements OnInit {
         //console.log(data);
         this.authService.getUserModules().subscribe({
           next : user => {
-          //this.storageService.saveUser(user);
-          console.log('user:',user);
-          const superAdminStr = !!user.superadmin ? 'true' : 'false';
-          window.localStorage.setItem('zup-userrole', superAdminStr);
+          this.storageService.saveRoleUser(user.superadmin);
+
           this.isLoggedIn = true;
           this.isLoginFailed = false;
           this.router.navigate(['/mainPage']);

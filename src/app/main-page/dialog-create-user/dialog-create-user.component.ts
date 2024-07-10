@@ -12,6 +12,7 @@ import {
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
+import { AuthService } from '../../auth.service';
 
 
 @Component({
@@ -37,7 +38,8 @@ import { MatButtonModule } from '@angular/material/button';
 export class DialogCreateUserComponent {
   constructor(
     private fb: FormBuilder, 
-    public dialogRef: MatDialogRef<DialogCreateUserComponent>
+    public dialogRef: MatDialogRef<DialogCreateUserComponent>,
+    private authService : AuthService
   ) {}
 
   ngOnInit() {
@@ -57,16 +59,31 @@ export class DialogCreateUserComponent {
   }
 
   createUserForm = this.fb.group({
-    currentPassword: ['', Validators.required],
-    newPassword: ['', Validators.required],
+    login: ['',Validators.pattern('^[a-zA-Z][a-zA-Z0-9_-]{3,20}$')],
+    name: ['', Validators.required],
+    currentPassword: ['', Validators.pattern('^[a-zA-Z][a-zA-Z0-9_-]{5,20}$')],
     repeatNewPassword: ['', Validators.required]
   });
 
   onSubmitCreateUser(){
     if (this.createUserForm.valid) {
-      const currentPassword = this.createUserForm.get('login')!.value;
-      const newPassword = this.createUserForm.get('currentPassword')!.value;
+      const login = this.createUserForm.get('login')!.value;
+      const name = this.createUserForm.get('name')!.value;
+      const currentPassword = this.createUserForm.get('currentPassword')!.value;
       const newRepeatPassword = this.createUserForm.get('repeatNewPassword')!.value;
+      if ((login !== null && currentPassword !== null && name !== null) && ((newRepeatPassword == currentPassword)))
+        {
+        this.authService.createUser(login,name,currentPassword).subscribe(
+          {
+            next : respone => {
+              console.log("response:",respone)
+            },
+            error : err => {
+              console.log("error:", err)
+            }
+          }
+        )
+      }
     }
   }
 }

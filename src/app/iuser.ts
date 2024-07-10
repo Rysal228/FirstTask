@@ -10,7 +10,8 @@ export interface User {
 login: string;
 name: string;
 scope: Module[];
-superadmin: boolean;
+superadmin: boolean; // просто имеент права на все модули
+moderator: boolean; // может менять всё
 }
 
 export interface Rights {

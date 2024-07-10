@@ -1,11 +1,13 @@
 import { Injectable } from '@angular/core';
-import { User } from './iuser';
+
 const USER_KEY = 'zup-token';
 
 @Injectable({
   providedIn: 'root'
 })
 export class StorageService {
+
+  private userRole: boolean | null = null;
 
   public isLoggedIn(): boolean {
     const user = window.localStorage.getItem(USER_KEY);
@@ -25,10 +27,15 @@ export class StorageService {
     window.localStorage.removeItem(USER_KEY);
     window.localStorage.setItem(USER_KEY, JSON.stringify(user));
   }
-// мб удалить
-  // saveUser(user: User): void {
-  //   localStorage.setItem(USER_KEY, JSON.stringify(user));
-  // }
+
+   saveRoleUser(user: boolean): void {
+    this.userRole = user;
+    console.log('Пользователь:', this.userRole);
+  }
+
+  getRoleUser(): boolean | null {
+    return this.userRole;
+  }
 
   constructor() { }
 

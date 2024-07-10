@@ -7,7 +7,9 @@ import { MatIconModule } from '@angular/material/icon'
 import { Router } from '@angular/router';
 import { RouterModule } from '@angular/router';
 import { MatPaginator, MatPaginatorModule, PageEvent } from '@angular/material/paginator';
-
+import { MatDialogRef } from '@angular/material/dialog';
+import { TableUserComponent } from '../table-user/table-user.component';
+import { MatDialog } from '@angular/material/dialog';
 @Component({
   selector: 'app-table-users',
   standalone: true,
@@ -16,7 +18,8 @@ import { MatPaginator, MatPaginatorModule, PageEvent } from '@angular/material/p
     MatTableModule,
     MatIconModule,
     RouterModule,
-    MatPaginatorModule
+    MatPaginatorModule,
+    
   ],
   templateUrl: 'table-users.component.html',
   styleUrl: './table-users.component.scss'
@@ -24,84 +27,93 @@ import { MatPaginator, MatPaginatorModule, PageEvent } from '@angular/material/p
 
 export class TableUsersComponent implements OnInit {
   displayedColumns: string[] = ['position', 'name', 'login'];
-  //dataSource = new MatTableDataSource<User>([]);
   dataSource: User[] = [];
   dataSource2?: MatTableDataSource<User>;
   //dataSource: User[] = []; 
-
+  isManePage : boolean | null = null;
   paginator: any;
   itemPerPage = 10;
   currentPage = 1;
 
   constructor(
     private authService: AuthService,
-    private router: Router
+    private router: Router,
+    private dialog: MatDialog
   ){}
   
-length = 0;
-pageSize = 1;
-pageIndex = 0;
-pageSizeOptions = [1, 10, 15, 20, 25];
+  length = 0;
+  pageSize = 5;
+  pageIndex = 0;
+  pageSizeOptions = [1, 10, 15, 20, 25];
 
-hidePageSize = false;
-showPageSizeOptions = true;
-showFirstLastButtons = true;
-disabled = false;
 
-pageEvent: PageEvent | undefined;
+  hidePageSize = false;
+  showPageSizeOptions = true;
+  showFirstLastButtons = true;
+  disabled = false;
 
-handlePageEvent(event: PageEvent) {
-  this.pageEvent = event;
-  this.length = event.length;
-  this.pageSize = event.pageSize;
-  this.pageIndex = event.pageIndex;
+  pageEvent: PageEvent | undefined;
 
-  if (this.dataSource2)
-    this.dataSource2.data = this.dataSource.slice(
-      event.pageIndex * event.pageSize,
-      (event.pageIndex + 1) * event.pageSize
-    );
+  handlePageEvent(event: PageEvent) {
+    this.pageEvent = event;
+    this.length = event.length;
+    this.pageSize = event.pageSize;
+    this.pageIndex = event.pageIndex;
+
+    if (this.dataSource2)
+      this.dataSource2.data = this.dataSource.slice(
+        event.pageIndex * event.pageSize,
+        (event.pageIndex + 1) * event.pageSize
+      );
   }
 
-    ngOnInit(): void {
-      this.loadUsers();
-      this.dataSource2 = new MatTableDataSource<User>(this.dataSource);
-    }
-    loadUsers(): void {
-      this.authService.getUserslist().subscribe({
-        next: (people: User[]) => {
-          console.log('people:',people)
-          this.length = people.length;
-          this.dataSource = people;
-         console.log('this.dataSource.data',this.dataSource);
-        },
-        error: err => {
-          console.error('Ошибка при загрузке списка пользователей:', err);
-        }
-      });
-    }
+  ngOnInit(): void {
+    this.loadUsers();
+    this.dataSource2 = new MatTableDataSource<User>(this.dataSource);
+  }
+
+  loadUsers(): void {
+    this.authService.getUserslist().subscribe({
+      next: (people: User[]) => {
+        console.log('people:',people)
+        
+        this.length = people.length;
+        this.dataSource = people;
+
+        if (this.dataSource2)
+          this.dataSource2.data = people.slice(0, this.pageSize);
+      },
+      error: err => {
+        console.error('Ошибка при загрузке списка пользователей:', err);
+      }
+    });
+  }
     
-    navigate(login : string){
-      //console.log(login);
-      this.authService.getModules().subscribe({
-        next: modules => {
-          console.log('Модули:', modules)
-        },
-        error: err => {
-          console.log('Ошибка при загрузке модулей:', err)
-        }
-      })
-       this.authService.getTableUser(login).subscribe({
-         next: User => {
-           console.log(User)
-         },
-         error: err => {
-           console.log('Ошибка при загрузке модулей пользователя:', err)
-         }
-       });
-    }
-     navigateToUserRights(login: string): void {
-       this.router.navigate(['/user', login]);
-     }
+  navigateToUser(login : string){
+    //console.log(login);
+    // this.authService.getModules().subscribe({
+    //   next: modules => {
+    //     console.log('Модули:', modules);
+    //   },
+    //   error: err => {
+    //     console.log('Ошибка при загрузке модулей:', err);
+    //   }
+    // })
+     this.authService.getTableUser(login).subscribe({
+       next: User => {
+        //   this.dialog.open(TableUserComponent, {
+        //   data: { User },
+        //   panelClass: 'custom-modalbox'
+        // });
+        this.isManePage = true;
+        console.log('isManePage:',this.isManePage);
+         console.log(User);
+    
+       },
+       error: err => {
+         console.log('Ошибка при загрузке модулей пользователя:', err)
+       }
+     });
+  }
 
 }

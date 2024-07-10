@@ -21,12 +21,12 @@
                   <mat-icon>dialpad</mat-icon>
                   <span> Изменить пароль</span>
                 </button>
-                <!-- <ng-container *ngIf="user && user.role === 'Admin'">
+                <ng-container *ngIf="isSuperAdmin">
                   <button mat-menu-item (click)="openDialogCreateUser()">
                     <mat-icon>person_add</mat-icon>
                     <span> Добавить пользователя </span>
                   </button>
-                </ng-container> -->
+                </ng-container> 
               </mat-menu>
               </div>
           </ng-template>
@@ -34,7 +34,7 @@
   </mat-tab-group>
 </header>
 
-<ng-container *ngIf="isSuperAdmin === 'true'; else userTable">
+<ng-container *ngIf="isSuperAdmin && !isAdminPage; else userTable">
   <app-table-users></app-table-users>
 </ng-container> 
 <ng-template #userTable> 
